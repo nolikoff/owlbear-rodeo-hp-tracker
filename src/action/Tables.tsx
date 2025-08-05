@@ -301,8 +301,7 @@ export function SceneTokensTable({
                         <select
                             value={token.item.createdUserId}
                             onChange={async (e) => {
-                                alert(123);
-                                await OBR.scene.items.updateItems([item], (items) => {
+                                await OBR.scene.items.updateItems([token.item], (items) => {
                                     items.forEach((item) => {
                                         item.createdUserId = e.target.value;
                                     });
