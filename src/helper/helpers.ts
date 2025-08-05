@@ -119,8 +119,6 @@ export const sortItems = (a: Item, b: Item) => {
     return 0;
 };
 
-
-
 export const generateSlug = (string: string) => {
     let str = string.replace(/^\s+|\s+$/g, "");
     str = str.toLowerCase();
@@ -202,45 +200,6 @@ export const updateRoomMetadata = async (
     if (!room || !objectsEqual({ ...room, ...data }, room) || force) {
         await OBR.room.setMetadata({ ...ownMetadata });
     }
-};
-
-export const dddiceRollToRollLog = async (
-    roll: IRoll,
-    options?: { participant?: IRoomParticipant; owlbear_user_id?: string },
-): Promise<RollLogEntryType> => {
-    let username = roll.external_id ?? roll.user.username;
-    let participantName = "";
-    if (options && options.participant && options.participant.username) {
-        participantName = options.participant.username;
-    } else {
-        const particip = roll.room.participants.find((p) => p.user.uuid === roll.user.uuid);
-        if (particip && particip.username) {
-            participantName = particip.username;
-        }
-    }
-
-    if ((roll.user.name === "Guest User" && !roll.external_id) || username.includes("dndb")) {
-        username = participantName;
-    }
-
-    return {
-        uuid: roll.uuid,
-        created_at: roll.created_at,
-        equation: roll.equation,
-        label: roll.label,
-        is_hidden: roll.values.some((v) => v.is_hidden),
-        total_value: roll.total_value,
-        username: username,
-        values: roll.values.map((v) => {
-            if (v.is_user_value) {
-                return `+${String(v.value)}`;
-            } else {
-                return String(v.value);
-            }
-        }),
-        owlbear_user_id: options?.owlbear_user_id,
-        participantUsername: participantName,
-    };
 };
 
 export const getRoomDiceUser = (room: RoomMetadata | null, id: string | null) => {
@@ -330,48 +289,6 @@ export const getTokenName = (token: Image) => {
     } catch {
         return "";
     }
-};
-
-export const prepareTokenForGrimoire = async (contextItems: Array<Image>) => {
-    const tokenIds: Array<string> = [];
-    const settings = await getTASettings();
-    const itemStatblocks = await getInitialValues(contextItems as Array<Image>, settings?.assign_ss_darkvision);
-    await updateItems(
-        contextItems.map((i) => i.id),
-        (items) => {
-            items.forEach((item) => {
-                tokenIds.push(item.id);
-                if (itemMetadataKey in item.metadata) {
-                    const metadata = item.metadata[itemMetadataKey] as GMGMetadata;
-                    metadata.hpTrackerActive = true;
-                    item.metadata[itemMetadataKey] = metadata;
-                } else {
-                    // variable allows us to be typesafe
-                    const defaultMetadata: GMGMetadata = {
-                        hp: 0,
-                        maxHp: 0,
-                        armorClass: 0,
-                        hpTrackerActive: true,
-                        hpOnMap: settings?.default_token_settings?.hpOnMap || false,
-                        acOnMap: settings?.default_token_settings?.acOnMap || false,
-                        hpBar: settings?.default_token_settings?.hpOnMap || false,
-                        playerMap: {
-                            hp: settings?.default_token_settings?.playerMap?.hp || false,
-                            ac: settings?.default_token_settings?.playerMap?.ac || false,
-                        },
-                        playerList: settings?.default_token_settings?.playerList || false,
-                    };
-                    if (item.id in itemStatblocks) {
-                        defaultMetadata.maxHp = itemStatblocks[item.id].hp;
-                        defaultMetadata.hp = itemStatblocks[item.id].hp;
-                        defaultMetadata.armorClass = itemStatblocks[item.id].ac;
-                    }
-                    item.metadata[itemMetadataKey] = defaultMetadata;
-                }
-            });
-        },
-    );
-    return tokenIds;
 };
 
 export const modulo = (n: number, m: number) => {
