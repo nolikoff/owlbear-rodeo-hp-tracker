@@ -283,7 +283,19 @@ export function SceneTokensTable({
                   {appState.operation === "none" && playerRole === "GM" && (
                     <TableCell>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
-                        Test
+                        <select
+                          value={OBR.player.id}
+                          onChange={async (e) => {
+                              await OBR.scene.items.updateItems([item], (items) => {
+                                  items.forEach((item) => {
+                                      item.createdUserId = e.target.value;
+                                  });
+                              });
+                          }}
+                          className={"select-owner"}
+                        >
+                          <option value={OBR.player.id}>GM</option>
+                        </select>
                       </div>
                     </TableCell>
                   )}
