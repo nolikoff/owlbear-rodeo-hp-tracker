@@ -296,7 +296,13 @@ export function SceneTokensTable({
                     </TableCell>
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
-                    <TableCell>
+                      <div
+                          className={"owner-color"}
+                          style={{
+                              backgroundColor:
+                                  players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
+                          }}
+                      ></div>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
                         <select
                             value={token.item.createdUserId}
