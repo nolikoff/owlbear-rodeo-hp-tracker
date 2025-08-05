@@ -2,7 +2,9 @@ import OBR, { Image, Item, Metadata } from "@owlbear-rodeo/sdk";
 import { infoMetadataKey, itemMetadataKey, metadataKey } from "./variables.ts";
 import {
     AttachmentMetadata,
+    BestMatch,
     GMGMetadata,
+    InitialStatblockData,
     Limit,
     RoomMetadata,
     SceneMetadata,
@@ -12,6 +14,7 @@ import { IRoll, IRoomParticipant } from "dddice-js";
 import { RollLogEntryType } from "../context/RollLogContext.tsx";
 import { TTRPG_URL } from "../config.ts";
 import axios from "axios";
+import diff_match_patch from "./diff/diff_match_patch.ts";
 import axiosRetry from "axios-retry";
 import { chunk } from "lodash";
 import { deleteItems, updateItems } from "./obrHelper.ts";
@@ -367,35 +370,6 @@ export const getInitialValues = async (items: Array<Image>, getDarkVision: boole
     const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : {};
     const itemInitValues: Record<string, InitialStatblockData> = {};
     const srdSources = ["cc", "menagerie", "ta", "tob", "tob3", "wotc14", "wotc24"];
-
-    const isBestMatch = (dist: number, statblock: E5Statblock, bestMatch?: BestMatch): boolean => {
-        if (bestMatch === undefined) {
-            return true;
-        } else if (dist < bestMatch.distance) {
-            return true;
-        } else if (dist === bestMatch.distance) {
-            if (statblock.source) {
-                if (!srdSources.includes(statblock.source)) {
-                    return true;
-                } else if (
-                    (bestMatch.source && srdSources.includes(bestMatch.source) && statblock.source === "wotc14") ||
-                    statblock.source === "wotc24"
-                ) {
-                    if (bestMatch.source === "wotc24" && statblock.source === "wotc14") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    };
     
     axiosRetry(axios, {
         retries: 2,
