@@ -46,7 +46,6 @@ const Content = () => {
     const sortInitiative = scene?.sortMethod ?? SORT.DESC;
     const enableAutoSort = !!scene?.enableAutoSort;
     const { isReady } = SceneReadyContext();
-    const characterId = useCharSheet(useShallow((state) => state.characterId));
     const [playerPreview, setPlayerPreview] = useUISettingsContext(
         useShallow((state) => [state.playerPreview, state.setPlayerPreview]),
     );
