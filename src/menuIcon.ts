@@ -1,2 +1,2 @@
-const menuIcon = new URL("./icon.svg#icon", import.meta.url).toString();
+const menuIcon = new URL("./icon.svg", import.meta.url).toString();
 export default menuIcon;
