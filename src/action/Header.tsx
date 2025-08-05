@@ -80,28 +80,6 @@ export default function Header({
         </>
       ) : (
         <div className="flex gap-2">
-          <LinkButton
-            name="Patreon"
-            icon={<Patreon />}
-            href={"https://www.patreon.com/SeamusFinlayson"}
-          />
-          <LinkButton
-            name="Change Log"
-            icon={<History />}
-            href={"https://www.patreon.com/collection/306916?view=expanded"}
-          />
-          <LinkButton
-            name="Instructions"
-            icon={<QuestionMark />}
-            href={
-              "https://github.com/SeamusFinlayson/Bubbles-for-Owlbear-Rodeo?tab=readme-ov-file#how-it-works"
-            }
-          />
-          <LinkButton
-            name="Report Bug"
-            icon={<Bug />}
-            href="https://discord.gg/WMp9bky4be"
-          />
         </div>
       )}
     </div>
