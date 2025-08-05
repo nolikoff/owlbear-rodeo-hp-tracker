@@ -319,6 +319,5 @@ const Content = () => {
         </div>
     ): (
         <h1>Waiting for OBR startup</h1>
-        </div>
     );
 };
