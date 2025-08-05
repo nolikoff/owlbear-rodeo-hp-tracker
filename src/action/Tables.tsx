@@ -99,21 +99,6 @@ export function SceneTokensTable({
     }),
   );
 
-  const playerContext = usePlayerContext();
-  const [players, setPlayers] = useState<Array<Player>>([]);
-  const owner = players.find((p) => p.id === item.createdUserId)?.id ?? playerContext.id ?? "";
-
-  useEffect(() => {
-        const initPlayerList = async () => {
-            setPlayers(await OBR.party.getPlayers());
-        };
-
-        initPlayerList();
-        return OBR.party.onChange((players) => {
-            setPlayers(players);
-        });
-    }, []);
-
   return (
     <DndContext
       sensors={sensors}
@@ -228,6 +213,21 @@ export function SceneTokensTable({
                     break;
                 }
               };
+
+              const playerContext = usePlayerContext();
+              const [players, setPlayers] = useState<Array<Player>>([]);
+              const owner = players.find((p) => p.id === token.item.createdUserId)?.id ?? playerContext.id ?? "";
+            
+              useEffect(() => {
+                    const initPlayerList = async () => {
+                        setPlayers(await OBR.party.getPlayers());
+                    };
+            
+                    initPlayerList();
+                    return OBR.party.onChange((players) => {
+                        setPlayers(players);
+                    });
+                }, []);
 
               return (
                 <SortableTableRow
