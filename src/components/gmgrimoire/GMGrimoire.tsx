@@ -17,7 +17,6 @@ import {
 } from "../../helper/helpers.ts";
 import { compare } from "compare-versions";
 import { Helpbuttons } from "../general/Helpbuttons/Helpbuttons.tsx";
-import { DiceTray } from "../general/DiceRoller/DiceTray.tsx";
 import { useMetadataContext } from "../../context/MetadataContext.ts";
 import { TokenContextWrapper } from "../TokenContextWrapper.tsx";
 import { useTokenListContext } from "../../context/TokenContext.tsx";
@@ -33,7 +32,6 @@ export const GMGrimoire = () => {
         <ContextWrapper component={"action_window"}>
             <TokenContextWrapper>
                 <Content />
-                <DiceTray classes={"hp-tracker-dice-tray"} />
             </TokenContextWrapper>
         </ContextWrapper>
     );
