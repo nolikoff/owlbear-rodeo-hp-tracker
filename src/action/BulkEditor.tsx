@@ -48,7 +48,7 @@ export default function BulkEditor(): JSX.Element {
     (appState.showItems === "ALL" ||
       appState.mostRecentSelection.includes(token.item.id) ||
       getIncluded(token.item.id, appState.includedItems)) &&
-    // (playerRole === "GM" || !token.hideStats) &&
+    //PL (playerRole === "GM" || !token.hideStats) &&
     (playerRole === "GM" || playerRole === "PLAYER" || !token.hideStats) &&
     !(appState.operation === "damage" && token.maxHealth <= 0) &&
     !(appState.operation === "healing" && token.maxHealth <= 0);
@@ -134,8 +134,8 @@ export default function BulkEditor(): JSX.Element {
     };
     const updatePlayerRole = (role: "PLAYER" | "GM") => {
       setPlayerRole(role);
-      // if (role === "PLAYER")
-      //   dispatch({ type: "set-operation", operation: "none" });
+      //PL if (role === "PLAYER")
+      //PL   dispatch({ type: "set-operation", operation: "none" });
     };
     const updatePlayerName = (name: string) => {
       setPlayerName(name);
@@ -170,12 +170,12 @@ export default function BulkEditor(): JSX.Element {
   );
 
   const getTable = () => {
-    // if (playerRole === "PLAYER")
-    //   return (
-    //     <div className="flex h-full items-start justify-center p-2 text-mirage-400 dark:text-mirage-600">
-    //       Token list is GM only.
-    //     </div>
-    //   );
+    //PL if (playerRole === "PLAYER")
+    //PL   return (
+    //PL     <div className="flex h-full items-start justify-center p-2 text-mirage-400 dark:text-mirage-600">
+    //PL       Token list is GM only.
+    //PL     </div>
+    //PL   );
     if (selectedTokens.length === 0)
       return (
         <div className="flex h-full items-start justify-center p-2 text-mirage-400 dark:text-mirage-600">
