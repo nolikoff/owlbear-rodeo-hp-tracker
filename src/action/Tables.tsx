@@ -57,7 +57,24 @@ import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { SmartMouseSensor } from "./SmartPointerSensor";
 import { SortableTableRow } from "./SortableTableRow";
 
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+
+export type PlayerContextType = {
+    role: string | null;
+    id: string | null;
+    name: string | null;
+};
+
+export const PlayerContext = createContext<PlayerContextType | null>(null);
+
+export const usePlayerContext = (): PlayerContextType => {
+    const playerContext = useContext(PlayerContext);
+    if (playerContext === null) {
+        throw new Error("Player not yet set");
+    }
+
+    return playerContext;
+};
 
 export function SceneTokensTable({
   appState,
@@ -82,7 +99,9 @@ export function SceneTokensTable({
     }),
   );
 
+  const playerContext = usePlayerContext();
   const [players, setPlayers] = useState<Array<Player>>([]);
+  const owner = players.find((p) => p.id === item.createdUserId)?.id ?? playerContext.id ?? "";
 
   useEffect(() => {
         const initPlayerList = async () => {
@@ -299,7 +318,7 @@ export function SceneTokensTable({
                     <TableCell>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
                         <select
-                            value={token.item.createdUserId}
+                            value={owner}
                             onChange={async (e) => {
                                 await OBR.scene.items.updateItems([item], (items) => {
                                     items.forEach((item) => {
