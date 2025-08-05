@@ -7,21 +7,14 @@ import { useMetadataContext } from "../../../context/MetadataContext.ts";
 export const About = ({
     about,
     slug,
-    statblock,
-    stats,
-    context,
     defaultOpen,
     hideTitle,
 }: {
     about?: string | null;
     slug: string;
-    statblock?: E5Statblock | PfStatblock;
-    stats?: Stats;
-    context?: string;
     defaultOpen?: boolean;
     hideTitle?: boolean;
 }) => {
-    const room = useMetadataContext.getState().room;
     const [open, setOpen] = useLocalStorage<boolean>(`${ID}.about.${slug}`, !!defaultOpen);
     return about ? (
         <div className={`about ${hideTitle ? "no-title" : ""}`}>
