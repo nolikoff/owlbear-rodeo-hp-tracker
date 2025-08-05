@@ -277,7 +277,7 @@ export function SceneTokensTable({
                             )
                           }
                         />
-                        {appState.operation === "none" && playerRole === "GM" ? (
+                        {appState.operation === "none" && playerRole === "GM" && (
                             <select
                                 value={owner}
                                 onChange={async (e) => {
@@ -298,7 +298,7 @@ export function SceneTokensTable({
                                     );
                                 })}
                             </select>
-                      ) : null}
+                      )}
                       </div>
                     </TableCell>
                   )}
