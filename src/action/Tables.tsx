@@ -1,6 +1,7 @@
 import Token from "../metadataHelpers/TokenType";
 import "../index.css";
 import OBR, { Image, Player } from "@owlbear-rodeo/sdk";
+import Tippy from "@tippyjs/react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -56,8 +57,6 @@ import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 
 import { SmartMouseSensor } from "./SmartPointerSensor";
 import { SortableTableRow } from "./SortableTableRow";
-
-import { useState } from "react";
 
 export function SceneTokensTable({
   appState,
@@ -300,7 +299,6 @@ export function SceneTokensTable({
                     <TableCell>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
                         <select
-                            value={owner}
                             onChange={async (e) => {
                                 await OBR.scene.items.updateItems([item], (items) => {
                                     items.forEach((item) => {
