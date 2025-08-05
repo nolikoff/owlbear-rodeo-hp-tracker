@@ -16,6 +16,8 @@ import axiosRetry from "axios-retry";
 import { chunk } from "lodash";
 import { deleteItems, updateItems } from "./obrHelper.ts";
 import { UserSettings } from "../api/tabletop-almanac/useUser.ts";
+import { updateHp } from "./hpHelpers.ts";
+import { updateAc } from "./acHelper.ts";
 
 export const getYOffset = async (height: number) => {
     const metadata = (await OBR.room.getMetadata()) as Metadata;
@@ -427,7 +429,6 @@ export const prepareTokenForGrimoire = async (contextItems: Array<Image>) => {
                     };
                     if (item.id in itemStatblocks) {
                         defaultMetadata.sheet = itemStatblocks[item.id].slug;
-                        defaultMetadata.ruleset = itemStatblocks[item.id].ruleset;
                         defaultMetadata.maxHp = itemStatblocks[item.id].hp;
                         defaultMetadata.hp = itemStatblocks[item.id].hp;
                         defaultMetadata.armorClass = itemStatblocks[item.id].ac;
