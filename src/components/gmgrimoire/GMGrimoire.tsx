@@ -8,10 +8,7 @@ import { PlayerTokenList } from "./TokenList.tsx";
 import { SceneReadyContext } from "../../context/SceneReadyContext.ts";
 import { DropGroup } from "./DropGroup.tsx";
 import {
-    orderByInitiative,
-    reorderMetadataIndex,
     sortItems,
-    sortItemsInitiative,
 } from "../../helper/helpers.ts";
 import { compare } from "compare-versions";
 import { Helpbuttons } from "../general/Helpbuttons/Helpbuttons.tsx";
@@ -110,25 +107,6 @@ const Content = () => {
         return tokenMap;
     }, [scene?.groups, items, isReady]);
 
-    useEffect(() => {
-        if (playerContext.role === "GM" && enableAutoSort) {
-            orderByInitiative(tokenLists, sortInitiative === SORT.ASC);
-        }
-    }, [enableAutoSort, sortInitiative, tokenLists]);
-
-    const playerTokens = useMemo(() => {
-        const playerItems = Array.from(items);
-        if (room?.playerSort && playerItems) {
-            if (sortInitiative === SORT.ASC) {
-                return playerItems.sort(sortItemsInitiative).reverse();
-            } else {
-                return playerItems.sort(sortItemsInitiative);
-            }
-        } else {
-            return playerItems ?? [];
-        }
-    }, [room?.playerSort, items, sortInitiative]);
-
     const reorderMetadataIndexMulti = async (destList: Array<Item>, group: string, sourceList: Array<Item>) => {
         const combinedList = destList.concat(sourceList);
         const destinationIds = destList.map((d) => d.id);
@@ -190,7 +168,6 @@ const Content = () => {
         }
         const tokens = result.filter((item) => item !== undefined);
 
-        await reorderMetadataIndex(tokens);
     };
 
     const move = async (
