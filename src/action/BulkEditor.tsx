@@ -176,12 +176,12 @@ export default function BulkEditor(): JSX.Element {
     //PL       Token list is GM only.
     //PL     </div>
     //PL   );
-    if (selectedTokens.length === 0)
-      return (
-        <div className="flex h-full items-start justify-center p-2 text-mirage-400 dark:text-mirage-600">
-          The tokens you most recently selected on the map will be visible here.
-        </div>
-      );
+    //PL if (selectedTokens.length === 0)
+    //PL   return (
+    //PL     <div className="flex h-full items-start justify-center p-2 text-mirage-400 dark:text-mirage-600">
+    //PL       The tokens you most recently selected on the map will be visible here.
+    //PL     </div>
+    //PL   );
 
     return (
       <SceneTokensTable
@@ -234,18 +234,19 @@ function ChangeShowItemsButton({
   dispatch: React.Dispatch<Action>;
 }): JSX.Element {
   return (
-    <Button
-      variant={"ghost"}
-      onClick={() =>
-        dispatch({
-          type: "set-show-items",
-          showItems: appState.showItems === "ALL" ? "SELECTED" : "ALL",
-        })
-      }
-    >
-      {appState.showItems === "ALL"
-        ? "Show Only Selected Tokens"
-        : "Show All Tokens"}
-    </Button>
+    <b></b>
+    //PL <Button
+    //PL   variant={"ghost"}
+    //PL   onClick={() =>
+    //PL     dispatch({
+    //PL       type: "set-show-items",
+    //PL       showItems: appState.showItems === "ALL" ? "SELECTED" : "ALL",
+    //PL     })
+    //PL   }
+    //PL >
+    //PL   {appState.showItems === "ALL"
+    //PL    ? "Show Only Selected Tokens"
+    //PL     : "Show All Tokens"}
+    //PL </Button>
   );
 }
