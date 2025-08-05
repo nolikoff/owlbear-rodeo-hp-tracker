@@ -6,7 +6,7 @@
   "homepage_url": "https://github.com/nolikoff/owlbear-rodeo-hp-tracker",
   "description": "Health Bar and Armor Class for your adventures.",
   "background_url": "/background.html",
-  "icon": "/logo.png",
+  "icon": "/logo-small.png",
   "action": {
       "title": "HP Tracker",
       "icon": "/icon.svg",
