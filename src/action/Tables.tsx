@@ -209,7 +209,7 @@ export function SceneTokensTable({
                 }
               };
 
-              const owner = players.find((p) => p.id === token.item.createdUserId)?.id;
+              const owner = players.find((p) => p.id === token.item.createdUserId)?.id ?? "";
 
               return (
                 <SortableTableRow
