@@ -220,8 +220,7 @@ export function SceneTokensTable({
                     faded={!included && appState.operation !== "none"}
                     playerSelection={playerSelection}
                   />
-         {/*PL    {appState.operation === "none" && playerRole === "GM" && ( */}
-                  {appState.operation === "none" && (playerRole === "GM" || playerRole === "PLAYER") && (
+                  {appState.operation === "none" && playerRole === "GM" && (
                     <AccessButton token={token} setTokens={setTokens} />
                   )}
                   {appState.operation !== "damage" && (
