@@ -229,7 +229,8 @@ export default function StatsMenuApp({
     <div className="h-full space-y-2 overflow-hidden px-2 py-1">
       {nameTagsEnabled && NameField}
       {StatsMenu}
-      {role === "GM" && HideButton}
+{/*PL       {role === "GM" && HideButton} */}
+      {(role === "GM" || role === "PLAYER") && HideButton}
     </div>
   );
 }
