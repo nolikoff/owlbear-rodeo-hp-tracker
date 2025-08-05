@@ -38,7 +38,7 @@ function createPlayerMenu(
             {
               key: [
                 "metadata",
-                "com.owlbear-rodeo-bubbles-extension/metadata",
+                "com.owlbear-rodeo-hp-tracker/metadata",
                 "hide",
               ],
               value: true,
