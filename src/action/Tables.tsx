@@ -85,10 +85,12 @@ export function SceneTokensTable({
       sensors={sensors}
       modifiers={[restrictToFirstScrollableAncestor]}
       collisionDetection={closestCenter}
-      onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}}
+{/*PL   onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}} */}
+      onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}}
     >
       <SortableContext
-        items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []}
+{/*PL         items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []} */}
+        items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []}
         strategy={verticalListSortingStrategy}
       >
         <Table tabIndex={-1}>
@@ -218,7 +220,8 @@ export function SceneTokensTable({
                     faded={!included && appState.operation !== "none"}
                     playerSelection={playerSelection}
                   />
-                  {appState.operation === "none" && playerRole === "GM" && (
+          {/*PL     {appState.operation === "none" && playerRole === "GM" && ( */}
+                  {appState.operation === "none" && (playerRole === "GM" || playerRole === "PLAYER") && (
                     <AccessButton token={token} setTokens={setTokens} />
                   )}
                   {appState.operation !== "damage" && (
