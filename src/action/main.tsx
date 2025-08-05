@@ -20,7 +20,6 @@ OBR.onReady(async () => {
   let initDone = false;
   const init = async (args: { isOpen?: boolean; role?: "PLAYER" | "GM" }) => {
     if ((args.isOpen === true || args.role === "GM") && !initDone) {
-    //if ((args.isOpen === true || args.role === "GM" || args.role === "PLAYER") && !initDone) {
       initDone = true;
       const App = lazy(() => import("./App"));
       const root = createRoot(document.getElementById("app") as HTMLDivElement);
