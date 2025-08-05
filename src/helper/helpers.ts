@@ -18,10 +18,8 @@ import diff_match_patch from "./diff/diff_match_patch.ts";
 import { E5Statblock } from "../api/e5/useE5Api.ts";
 import { PfStatblock } from "../api/pf/usePfApi.ts";
 import axiosRetry from "axios-retry";
-import { Ability } from "../components/gmgrimoire/statblocks/e5/E5Ability.tsx";
 import { chunk } from "lodash";
 import { deleteItems, updateItems } from "./obrHelper.ts";
-import { getEquipmentBonuses } from "./equipmentHelpers.ts";
 import { UserSettings } from "../api/tabletop-almanac/useUser.ts";
 import { updateHp } from "./hpHelpers.ts";
 import { updateAc } from "./acHelper.ts";
@@ -313,108 +311,6 @@ export const getRoomDiceUser = (room: RoomMetadata | null, id: string | null) =>
     return room?.diceUser?.find((user) => user.playerId === id);
 };
 
-const getLimitsE5 = (statblock: E5Statblock) => {
-    const limits: Array<Limit> = [];
-
-    const getActionTypeLimits = (actionType?: Array<Ability>) => {
-        actionType?.forEach((action) => {
-            if (action.limit) {
-                limits.push({
-                    id: action.limit.name,
-                    max: action.limit.uses,
-                    used: 0,
-                    resets: action.limit.resets ?? [],
-                });
-            }
-        });
-    };
-
-    getActionTypeLimits(statblock.actions || []);
-    getActionTypeLimits(statblock.reactions || []);
-    getActionTypeLimits(statblock.bonus_actions || []);
-    getActionTypeLimits(statblock.special_abilities || []);
-    getActionTypeLimits(statblock.lair_actions || []);
-    getActionTypeLimits(statblock.mythic_actions || []);
-    getActionTypeLimits(statblock.legendary_actions || []);
-
-    statblock.spell_slots?.forEach((spellSlot) => {
-        limits.push({
-            id: spellSlot.limit.name,
-            max: spellSlot.limit.uses,
-            used: 0,
-            resets: spellSlot.limit.resets ?? [],
-        });
-    });
-
-    statblock.limits?.forEach((limit) => {
-        limits.push({
-            id: limit.name,
-            max: limit.uses,
-            used: 0,
-            resets: limit.resets ?? [],
-        });
-    });
-
-    statblock.equipment?.forEach((equipment) => {
-        if (equipment.item.charges) {
-            limits.push({
-                id: equipment.item.charges.name,
-                max: equipment.item.charges.uses,
-                used: 0,
-                resets: equipment.item.charges.resets ?? [],
-            });
-        }
-        getActionTypeLimits(equipment.item.bonus?.actions || []);
-        getActionTypeLimits(equipment.item.bonus?.bonus_actions || []);
-        getActionTypeLimits(equipment.item.bonus?.reactions || []);
-        getActionTypeLimits(equipment.item.bonus?.special_abilities || []);
-    });
-
-    if (statblock.hp.hit_dice) {
-        try {
-            const hitDice = statblock.hp.hit_dice.split("d");
-            const dice = parseInt(hitDice[0]);
-            limits.push({
-                id: "Hit Dice",
-                max: dice,
-                used: 0,
-                resets: ["Long Rest"],
-            });
-        } catch {}
-    }
-    const uniqueLimits: Array<Limit> = [];
-    limits.forEach((limit) => {
-        const foundLimit = uniqueLimits.find((l) => l.id === limit.id);
-        if (foundLimit) {
-            if (limit.max > foundLimit.max) {
-                uniqueLimits.splice(
-                    uniqueLimits.findIndex((l) => l.id === limit.id),
-                    1,
-                    limit,
-                );
-            }
-        } else {
-            uniqueLimits.push(limit);
-        }
-    });
-    return uniqueLimits;
-};
-
-const getLimitsPf = (statblock: PfStatblock) => {
-    if (!statblock) {
-    }
-    return [];
-};
-
-const getPfInitiativeBonus = (bonus?: string | null) => {
-    if (bonus) {
-        try {
-            return parseInt(bonus);
-        } catch {}
-    }
-    return 0;
-};
-
 export const updateTokenSheet = async (
     statblock: E5Statblock | PfStatblock,
     characterId: string,
@@ -433,12 +329,6 @@ export const updateTokenSheet = async (
                 const e5Statblock = statblock as E5Statblock;
                 equipmentData.equipped = e5Statblock.equipment?.filter((e) => e.equipped).map((e) => e.item.slug) || [];
                 equipmentData.attuned = e5Statblock.equipment?.filter((e) => e.attuned).map((e) => e.item.slug) || [];
-                const equipmentBonuses = getEquipmentBonuses(
-                    // we only need the equipment data in this function
-                    { equipment: equipmentData } as GMGMetadata,
-                    e5Statblock.stats,
-                    e5Statblock.equipment || [],
-                );
 
                 const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
                 newHP = statblock.hp.value + equipmentBonuses.statblockBonuses.hpBonus;
@@ -490,12 +380,7 @@ export const resyncToken = async (statblock: E5Statblock | PfStatblock, characte
                     e5Statblock.equipment
                         ?.filter((e) => e.attuned || data.equipment?.attuned.includes(e.item.slug))
                         .map((e) => e.item.slug) || [];
-                const equipmentBonuses = getEquipmentBonuses(
-                    // we only need the equipment data in this function
-                    { equipment: equipmentData } as GMGMetadata,
-                    e5Statblock.stats,
-                    e5Statblock.equipment || [],
-                );
+
                 const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
                 newHP = statblock.hp.value + equipmentBonuses.statblockBonuses.hpBonus;
                 newAC = combinedAC + equipmentBonuses.statblockBonuses.ac;
@@ -656,12 +541,7 @@ export const getInitialValues = async (items: Array<Image>, getDarkVision: boole
                                 equipped: statblock.equipment?.filter((e) => e.equipped).map((e) => e.item.slug) || [],
                                 attuned: statblock.equipment?.filter((e) => e.attuned).map((e) => e.item.slug) || [],
                             };
-                            const equipmentBonuses = getEquipmentBonuses(
-                                // we only need the equipment data in this function
-                                { equipment: equipmentData } as GMGMetadata,
-                                statblock.stats,
-                                statblock.equipment || [],
-                            );
+          
 
                             const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
 
