@@ -317,5 +317,8 @@ const Content = () => {
                     )}
                 </div>
         </div>
+    ): (
+        <h1>Waiting for OBR startup</h1>
+        </div>
     );
 };
