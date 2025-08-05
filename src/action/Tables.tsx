@@ -299,7 +299,9 @@ export function SceneTokensTable({
                     <TableCell>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
                         <select
+                            value={token.item.createdUserId}
                             onChange={async (e) => {
+                                alert(123);
                                 await OBR.scene.items.updateItems([item], (items) => {
                                     items.forEach((item) => {
                                         item.createdUserId = e.target.value;
