@@ -355,6 +355,168 @@ export const getTASettings = async (): Promise<UserSettings | null> => {
     return null;
 };
 
+export const getInitialValues = async (items: Array<Image>, getDarkVision: boolean = false) => {
+    const roomData = await OBR.room.getMetadata();
+    let ruleset = "e5";
+    let apiKey = undefined;
+    if (metadataKey in roomData) {
+        const room = roomData[metadataKey] as RoomMetadata;
+        ruleset = room.ruleset || "e5";
+        apiKey = room.tabletopAlmanacAPIKey;
+    }
+    const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : {};
+    const itemInitValues: Record<string, InitialStatblockData> = {};
+    const srdSources = ["cc", "menagerie", "ta", "tob", "tob3", "wotc14", "wotc24"];
+
+    const isBestMatch = (dist: number, statblock: E5Statblock, bestMatch?: BestMatch): boolean => {
+        if (bestMatch === undefined) {
+            return true;
+        } else if (dist < bestMatch.distance) {
+            return true;
+        } else if (dist === bestMatch.distance) {
+            if (statblock.source) {
+                if (!srdSources.includes(statblock.source)) {
+                    return true;
+                } else if (
+                    (bestMatch.source && srdSources.includes(bestMatch.source) && statblock.source === "wotc14") ||
+                    statblock.source === "wotc24"
+                ) {
+                    if (bestMatch.source === "wotc24" && statblock.source === "wotc14") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    };
+    
+    axiosRetry(axios, {
+        retries: 2,
+        retryDelay: (_) => 200,
+        retryCondition: (error) => error.message === "Network Error",
+    });
+
+    for (const item of items) {
+        try {
+            const name = getSearchString(getTokenName(item));
+            if (!(itemMetadataKey in item.metadata)) {
+                if (ruleset === "e5") {
+                    const statblocks = await axios.request({
+                        url: `${TTRPG_URL}/e5/statblock/search/`,
+                        method: "GET",
+                        headers: headers,
+                        params: {
+                            search_string: name,
+                            take: 20,
+                            skip: 0,
+                        },
+                    });
+                let bestMatch: BestMatch | undefined = undefined;
+                    const diff = new diff_match_patch();
+                    statblocks.data.forEach((statblock: E5Statblock) => {
+                        const d = diff.diff_main(statblock.name, name);
+                        const dist = diff.diff_levenshtein(d);
+                        if (isBestMatch(dist, statblock, bestMatch)) {
+                            const equipmentData = {
+                                equipped: statblock.equipment?.filter((e) => e.equipped).map((e) => e.item.slug) || [],
+                                attuned: statblock.equipment?.filter((e) => e.attuned).map((e) => e.item.slug) || [],
+                            };
+                            const equipmentBonuses = getEquipmentBonuses(
+                                // we only need the equipment data in this function
+                                { equipment: equipmentData } as GMGMetadata,
+                                statblock.stats,
+                                statblock.equipment || [],
+                            );
+
+                            const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
+
+                            bestMatch = {
+                                source: statblock.source,
+                                distance: dist,
+                                statblock: {
+                                    hp: statblock.hp.value + equipmentBonuses.statblockBonuses.hpBonus,
+                                    ac: combinedAC + equipmentBonuses.statblockBonuses.ac,
+                                    bonus:
+                                        statblock.initiative ?? Math.floor((equipmentBonuses.stats.dexterity - 10) / 2),
+                                    slug: statblock.slug,
+                                    ruleset: "e5",
+                                    limits: getLimitsE5(statblock),
+                                    equipment: equipmentData,
+                                    darkvision: getDarkVision
+                                        ? Number(
+                                              statblock.senses
+                                                  ?.find((s) => s.toLowerCase().includes("darkvision"))
+                                                  ?.replace(/\D/g, ""),
+                                          )
+                                        : null,
+                                },
+                            };
+                        }
+                    });
+                    if (bestMatch !== undefined) {
+                    // @ts-ignore statblock exists on bestMatch;
+                        itemInitValues[item.id] = bestMatch.statblock;
+                    }
+                } else if (ruleset === "pf") {
+                    const statblocks = await axios.request({
+                        url: `${TTRPG_URL}/pf/statblock/search/`,
+                        method: "GET",
+                        headers: headers,
+                        params: {
+                            name: name,
+                            take: 10,
+                            skip: 0,
+                        },
+                    });
+                    let bestMatch: { distance: number; statblock: InitialStatblockData } | undefined = undefined;
+                    const diff = new diff_match_patch();
+                    statblocks.data.forEach((statblock: PfStatblock) => {
+                        const d = diff.diff_main(statblock.name, name);
+                        const dist = diff.diff_levenshtein(d);
+                        if (
+                            bestMatch === undefined ||
+                            dist < bestMatch.distance ||
+                            (dist === bestMatch.distance && statblock.source !== null)
+                        ) {
+                            bestMatch = {
+                                distance: dist,
+                                statblock: {
+                                    hp: statblock.hp.value,
+                                    ac: statblock.armor_class.value,
+                                    bonus: statblock.perception
+                                        ? parseInt(statblock.perception)
+                                        : statblock.skills && "perception" in statblock.skills
+                                          ? parseInt(statblock.skills["perception"] as string)
+                                          : 0,
+                                    slug: statblock.slug,
+                                    ruleset: "pf",
+                                    limits: getLimitsPf(statblock),
+                                    darkvision: null,
+                                },
+                            };
+                        }
+                    });
+                    if (bestMatch !== undefined) {
+                        // @ts-ignore statblock exists on bestMatch;
+                        itemInitValues[item.id] = bestMatch.statblock;
+                    }
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    
+    return itemInitValues;
+};
+
 
 export const updateLimit = async (itemId: string, limitValues: Limit, usage?: number) => {
     if (limitValues) {
