@@ -2,27 +2,20 @@ import OBR, { Image, Item, Metadata } from "@owlbear-rodeo/sdk";
 import { infoMetadataKey, itemMetadataKey, metadataKey } from "./variables.ts";
 import {
     AttachmentMetadata,
-    BestMatch,
     GMGMetadata,
-    InitialStatblockData,
     Limit,
     RoomMetadata,
     SceneMetadata,
 } from "./types.ts";
-import { isEqual, isNull, isObject, isUndefined } from "lodash";
+import { isEqual, isObject, isUndefined } from "lodash";
 import { IRoll, IRoomParticipant } from "dddice-js";
 import { RollLogEntryType } from "../context/RollLogContext.tsx";
 import { TTRPG_URL } from "../config.ts";
 import axios from "axios";
-import diff_match_patch from "./diff/diff_match_patch.ts";
-import { E5Statblock } from "../api/e5/useE5Api.ts";
-import { PfStatblock } from "../api/pf/usePfApi.ts";
 import axiosRetry from "axios-retry";
 import { chunk } from "lodash";
 import { deleteItems, updateItems } from "./obrHelper.ts";
 import { UserSettings } from "../api/tabletop-almanac/useUser.ts";
-import { updateHp } from "./hpHelpers.ts";
-import { updateAc } from "./acHelper.ts";
 
 export const getYOffset = async (height: number) => {
     const metadata = (await OBR.room.getMetadata()) as Metadata;
