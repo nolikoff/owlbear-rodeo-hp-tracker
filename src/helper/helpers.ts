@@ -304,68 +304,7 @@ export const getRoomDiceUser = (room: RoomMetadata | null, id: string | null) =>
     return room?.diceUser?.find((user) => user.playerId === id);
 };
 
-export const resyncToken = async (statblock: E5Statblock | PfStatblock, characterId: string, ruleset: "e5" | "pf") => {
-    await updateItems([characterId], (items) => {
-        items.forEach((item) => {
-            const data = item.metadata[itemMetadataKey] as GMGMetadata;
-            const equipmentData: { equipped: Array<string>; attuned: Array<string> } = { equipped: [], attuned: [] };
-            let newHP,
-                newAC = 0;
-            if (ruleset === "e5") {
-                const e5Statblock = statblock as E5Statblock;
-                equipmentData.equipped =
-                    e5Statblock.equipment
-                        ?.filter((e) => e.equipped || data.equipment?.equipped.includes(e.item.slug))
-                        .map((e) => e.item.slug) || [];
-                equipmentData.attuned =
-                    e5Statblock.equipment
-                        ?.filter((e) => e.attuned || data.equipment?.attuned.includes(e.item.slug))
-                        .map((e) => e.item.slug) || [];
-                const equipmentBonuses = getEquipmentBonuses(
-                    // we only need the equipment data in this function
-                    { equipment: equipmentData } as GMGMetadata,
-                    e5Statblock.stats,
-                    e5Statblock.equipment || [],
-                );
-                const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
-                newHP = statblock.hp.value + equipmentBonuses.statblockBonuses.hpBonus;
-                newAC = combinedAC + equipmentBonuses.statblockBonuses.ac;
-            } else {
-                newHP = statblock.hp.value;
-                newAC = statblock.armor_class.value;
-            }
-            item.metadata[itemMetadataKey] = {
-                ...data,
-                sheet: statblock.slug,
-                ruleset: ruleset,
-                maxHp: newHP,
-                armorClass: newAC,
-                hp: data.hp === data.maxHp ? newHP : Math.min(data.hp, newHP),
-                equipment: equipmentData,
-                stats: {
-                    ...data.stats,
-                    initiativeBonus:
-                        ruleset === "e5"
-                            ? (statblock as E5Statblock).initiative ||
-                              Math.floor(((statblock.stats.dexterity || 0) - 10) / 2)
-                            : getPfInitiativeBonus((statblock as PfStatblock).perception),
-                    initial: false,
-                    limits:
-                        ruleset === "e5"
-                            ? getLimitsE5(statblock as E5Statblock)
-                                  .map((limit) => {
-                                      const current = data.stats.limits?.find((l) => l.id === limit.id);
-                                      if (current) {
-                                          return { ...limit, used: Math.min(current.used, limit.max) };
-                                      }
-                                      return limit;
-                                  })
-                                  .filter((e) => !isNull(e))
-                            : getLimitsPf(statblock as PfStatblock),
-                },
-            };
-        });
-    });
+export const resyncToken = async (characterId: string, ruleset: "e5" | "pf") => {
     const items = await OBR.scene.items.getItems([characterId]);
     items.forEach((item) => {
         const data = item.metadata[itemMetadataKey] as GMGMetadata;
