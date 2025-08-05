@@ -102,8 +102,8 @@ export function SceneTokensTable({
       onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}}
     >
       <SortableContext
-        items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []}
-/*PL    items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []} */
+/*PL    items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []} */
+        items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []}
         strategy={verticalListSortingStrategy}
       >
         <Table tabIndex={-1}>
