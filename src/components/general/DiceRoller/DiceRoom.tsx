@@ -27,6 +27,6 @@ export const DiceRoom = ({ className, user }: { className?: string; user?: IUser
     }, [open]);
 
     return (
-        <br>           
+        <b></b>      
     );
 };
