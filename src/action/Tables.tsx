@@ -3,7 +3,7 @@ import "../index.css";
 import OBR, { Image, Player } from "@owlbear-rodeo/sdk";
 import { Button } from "@/components/ui/button";
 import {
-  Table,F
+  Table,
   TableBody,
   TableCell,
   TableHead,
