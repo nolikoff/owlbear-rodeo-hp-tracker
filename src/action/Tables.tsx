@@ -280,6 +280,13 @@ export function SceneTokensTable({
                       </div>
                     </TableCell>
                   )}
+                  {appState.operation === "none" && playerRole === "GM" && (
+                    <TableCell>
+                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
+                        Test
+                      </div>
+                    </TableCell>
+                  )}
                   {appState.operation === "damage" && (
                     <>
                       <TableCell>
