@@ -45,9 +45,9 @@ export default function BulkEditor(): JSX.Element {
 
   // Tokens filter state
   const selectionFilter = (token: Token) =>
-    (appState.showItems === "ALL" ||
-      appState.mostRecentSelection.includes(token.item.id) ||
-      getIncluded(token.item.id, appState.includedItems)) &&
+    // (appState.showItems === "ALL" ||
+      // appState.mostRecentSelection.includes(token.item.id) ||
+      // getIncluded(token.item.id, appState.includedItems)) &&
     //PL (playerRole === "GM" || !token.hideStats) &&
     (playerRole === "GM" || playerRole === "PLAYER" || !token.hideStats) &&
     !(appState.operation === "damage" && token.maxHealth <= 0) &&
