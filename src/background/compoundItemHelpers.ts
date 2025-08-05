@@ -94,7 +94,8 @@ export function createStatBubble(
 const BAR_PADDING = 2;
 const HEALTH_OPACITY = 0.5;
 export const FULL_BAR_HEIGHT = 20;
-export const SHORT_BAR_HEIGHT = 12;
+export const SHORT_BAR_HEIGHT = 20;
+// export const SHORT_BAR_HEIGHT = 12;
 const BAR_CORNER_RADIUS = FULL_BAR_HEIGHT / 2;
 
 /** Creates health bar component items */
