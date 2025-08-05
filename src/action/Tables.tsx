@@ -235,6 +235,37 @@ export function SceneTokensTable({
                   />
                   {appState.operation === "none" && playerRole === "GM" && (
                     <AccessButton token={token} setTokens={setTokens} />
+                    <TableCell>
+                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
+                        <div
+                          className={"owner-color"}
+                          style={{
+                              backgroundColor:
+                                  players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
+                          }}
+                        ></div>
+                        <select
+                            value={token.item.createdUserId}
+                            onChange={async (e) => {
+                                await OBR.scene.items.updateItems([token.item], (items) => {
+                                    items.forEach((item) => {
+                                        item.createdUserId = e.target.value;
+                                    });
+                                });
+                            }}
+                            className={"select-owner"}
+                        >
+                            <option value={OBR.player.id}>GM</option>
+                            {players.map((player) => {
+                                return (
+                                    <option key={player.id} value={player.id}>
+                                        {player.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                      </div>
+                    </TableCell>
                   )}
                   {appState.operation !== "damage" && (
                     <TableCell>
@@ -290,39 +321,6 @@ export function SceneTokensTable({
                             )
                           }
                         />
-                      </div>
-                    </TableCell>
-                  )}
-                  {appState.operation === "none" && playerRole === "GM" && (
-                    <TableCell>
-                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
-                        <div
-                          className={"owner-color"}
-                          style={{
-                              backgroundColor:
-                                  players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
-                          }}
-                        ></div>
-                        <select
-                            value={token.item.createdUserId}
-                            onChange={async (e) => {
-                                await OBR.scene.items.updateItems([token.item], (items) => {
-                                    items.forEach((item) => {
-                                        item.createdUserId = e.target.value;
-                                    });
-                                });
-                            }}
-                            className={"select-owner"}
-                        >
-                            <option value={OBR.player.id}>GM</option>
-                            {players.map((player) => {
-                                return (
-                                    <option key={player.id} value={player.id}>
-                                        {player.name}
-                                    </option>
-                                );
-                            })}
-                        </select>
                       </div>
                     </TableCell>
                   )}
