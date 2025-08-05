@@ -279,7 +279,7 @@ export function SceneTokensTable({
                         />
                         {appState.operation === "none" && playerRole === "GM" && (
                             <select
-                                value={owner}
+                                value={OBR.player.id}
                                 onChange={async (e) => {
                                     await OBR.scene.items.updateItems([item], (items) => {
                                         items.forEach((item) => {
