@@ -304,7 +304,7 @@ export const getRoomDiceUser = (room: RoomMetadata | null, id: string | null) =>
     return room?.diceUser?.find((user) => user.playerId === id);
 };
 
-export const resyncToken = async (characterId: string, ruleset: "e5" | "pf") => {
+export const resyncToken = async (characterId: string) => {
     const items = await OBR.scene.items.getItems([characterId]);
     items.forEach((item) => {
         const data = item.metadata[itemMetadataKey] as GMGMetadata;
