@@ -1,9 +1,9 @@
 import Token from "../metadataHelpers/TokenType";
 import "../index.css";
-import { Image } from "@owlbear-rodeo/sdk";
+import OBR, { Image, Player } from "@owlbear-rodeo/sdk";
 import { Button } from "@/components/ui/button";
 import {
-  Table,
+  Table,F
   TableBody,
   TableCell,
   TableHead,
@@ -57,6 +57,8 @@ import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { SmartMouseSensor } from "./SmartPointerSensor";
 import { SortableTableRow } from "./SortableTableRow";
 
+import { useState } from "react";
+
 export function SceneTokensTable({
   appState,
   dispatch,
@@ -79,6 +81,8 @@ export function SceneTokensTable({
       activationConstraint: { distance: { y: 10 } },
     }),
   );
+
+  const [players, setPlayers] = useState<Array<Player>>([]);
 
   return (
     <DndContext
@@ -284,10 +288,23 @@ export function SceneTokensTable({
                     <TableCell>
                       <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
                         <select
-                          value={OBR.player.id}
-                          className={"select-owner"}
+                            onChange={async (e) => {
+                                await OBR.scene.items.updateItems([item], (items) => {
+                                    items.forEach((item) => {
+                                        item.createdUserId = e.target.value;
+                                    });
+                                });
+                            }}
+                            className={"select-owner"}
                         >
-                          <option value={OBR.player.id}>GM</option>
+                            <option value={OBR.player.id}>GM</option>
+                            {players.map((player) => {
+                                return (
+                                    <option key={player.id} value={player.id}>
+                                        {player.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                       </div>
                     </TableCell>
