@@ -98,8 +98,8 @@ export function SceneTokensTable({
       sensors={sensors}
       modifiers={[restrictToFirstScrollableAncestor]}
       collisionDetection={closestCenter}
-      onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}}
-/*PL  onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}} */
+/*PL  onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}} */
+      onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}}
     >
       <SortableContext
         items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []}
