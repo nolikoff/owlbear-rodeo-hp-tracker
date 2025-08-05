@@ -98,12 +98,12 @@ export function SceneTokensTable({
       sensors={sensors}
       modifiers={[restrictToFirstScrollableAncestor]}
       collisionDetection={closestCenter}
-/*PL  onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}} */
-      onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}}
+      onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}}
+/*    onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}} */
     >
       <SortableContext
-/*PL    items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []} */
-        items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []}
+        items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []}
+/*PL    items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []} */
         strategy={verticalListSortingStrategy}
       >
         <Table tabIndex={-1}>
