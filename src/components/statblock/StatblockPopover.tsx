@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { StatblockList } from "./StatblockList.tsx";
 import { ContextWrapper } from "../ContextWrapper.tsx";
 import { SceneReadyContext } from "../../context/SceneReadyContext.ts";
-import { DiceTray } from "../general/DiceRoller/DiceTray.tsx";
 import { useMetadataContext } from "../../context/MetadataContext.ts";
 import { TokenContextWrapper } from "../TokenContextWrapper.tsx";
 import { updateSceneMetadata } from "../../helper/helpers.ts";
@@ -92,7 +91,6 @@ const Content = () => {
                 </div>
                 <StatblockList minimized={minimized} pinned={pinned} setPinned={setPinned} selection={selection} />
             </div>
-            <DiceTray classes={`statblock-dice-tray ${minimized ? "hidden" : ""}`} />
         </>
     );
 };
