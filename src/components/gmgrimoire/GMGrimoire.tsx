@@ -267,9 +267,7 @@ const Content = () => {
     };
 
     return playerContext.role ? (
-        characterId ? (
-        ) : (
-            <div className={`gm-grimoire ${playerContext.role === "PLAYER" ? "player" : ""}`}>
+        <div className={`gm-grimoire ${playerContext.role === "PLAYER" ? "player" : ""}`}>
                 <Helpbuttons ignoredChanges={ignoredChanges} setIgnoredChange={setIgnoredChanges} />
                 {playerContext.role === "GM" ? (
                     <div className={`headings`}>
@@ -318,9 +316,6 @@ const Content = () => {
                         <PlayerTokenList tokens={playerTokens} selected={selectedTokens} tokenLists={tokenLists} />
                     )}
                 </div>
-            </div>
-        )
-    ) : (
-        <h1>Waiting for OBR startup</h1>
+        </div>
     );
 };
