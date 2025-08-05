@@ -5,7 +5,6 @@ import OBR, { Image, Item } from "@owlbear-rodeo/sdk";
 import { changelogModal, itemMetadataKey, version } from "../../helper/variables.ts";
 import { GMGMetadata, SORT } from "../../helper/types.ts";
 import { PlayerTokenList } from "./TokenList.tsx";
-import { useCharSheet } from "../../context/CharacterContext.ts";
 import { SceneReadyContext } from "../../context/SceneReadyContext.ts";
 import { DropGroup } from "./DropGroup.tsx";
 import {
