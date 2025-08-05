@@ -56,7 +56,7 @@ export const TokenIcon = ({
                 apiKey: room?.tabletopAlmanacAPIKey,
             });
             if (statblock) {
-                await resyncToken(statblock, id, room.ruleset);
+                await resyncToken(id);
                 const notification = await OBR.notification.show(
                     "Don't forget to close and reopen the Statblock Popover",
                     "SUCCESS",
