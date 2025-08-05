@@ -208,8 +208,6 @@ export function SceneTokensTable({
                 }
               };
 
-              const owner = players.find((p) => p.id === token.item.createdUserId)?.id ?? "";
-
               return (
                 <SortableTableRow
                   key={token.item.id}
@@ -296,14 +294,15 @@ export function SceneTokensTable({
                     </TableCell>
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
-                      <div
+                    <TableCell>
+                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
+                        <div
                           className={"owner-color"}
                           style={{
                               backgroundColor:
                                   players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
                           }}
-                      ></div>
-                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
+                        ></div>
                         <select
                             value={token.item.createdUserId}
                             onChange={async (e) => {
