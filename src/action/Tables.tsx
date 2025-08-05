@@ -277,30 +277,30 @@ export function SceneTokensTable({
                             )
                           }
                         />
-                        {appState.operation === "none" && playerRole === "GM" && (
-                            <select
-                                value={OBR.player.id}
-                                onChange={async (e) => {
-                                    await OBR.scene.items.updateItems([item], (items) => {
-                                        items.forEach((item) => {
-                                            item.createdUserId = e.target.value;
-                                        });
-                                    });
-                                }}
-                                className={"select-owner"}
-                            >
-                                <option value={OBR.player.id}>GM</option>
-                                {OBR.party.getPlayers().map((player) => {
-                                    return (
-                                        <option key={player.getId()} value={player.getId()}>
-                                            {player.getName()}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                      )}
                       </div>
                     </TableCell>
+                  )}
+                  {appState.operation === "none" && playerRole === "GM" && (
+                    <select
+                      value={OBR.player.id}
+                      onChange={async (e) => {
+                          await OBR.scene.items.updateItems([item], (items) => {
+                              items.forEach((item) => {
+                                  item.createdUserId = e.target.value;
+                              });
+                          });
+                      }}
+                      className={"select-owner"}
+                    >
+                      <option value={OBR.player.id}>GM</option>
+                      {OBR.party.getPlayers().map((player) => {
+                          return (
+                              <option key={player.getId()} value={player.getId()}>
+                                  {player.getName()}
+                              </option>
+                          );
+                      })}
+                    </select>
                   )}
                   {appState.operation === "damage" && (
                     <>
