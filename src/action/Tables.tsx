@@ -57,24 +57,7 @@ import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { SmartMouseSensor } from "./SmartPointerSensor";
 import { SortableTableRow } from "./SortableTableRow";
 
-import { createContext, useContext, useState } from "react";
-
-export type PlayerContextType = {
-    role: string | null;
-    id: string | null;
-    name: string | null;
-};
-
-export const PlayerContext = createContext<PlayerContextType | null>(null);
-
-export const usePlayerContext = (): PlayerContextType => {
-    const playerContext = useContext(PlayerContext);
-    if (playerContext === null) {
-        throw new Error("Player not yet set");
-    }
-
-    return playerContext;
-};
+import { useState } from "react";
 
 export function SceneTokensTable({
   appState,
@@ -98,6 +81,18 @@ export function SceneTokensTable({
       activationConstraint: { distance: { y: 10 } },
     }),
   );
+
+  const [players, setPlayers] = useState<Array<Player>>([]);
+  useEffect(() => {
+        const initPlayerList = async () => {
+            setPlayers(await OBR.party.getPlayers());
+        };
+
+        initPlayerList();
+        return OBR.party.onChange((players) => {
+            setPlayers(players);
+        });
+    }, []);
 
   return (
     <DndContext
@@ -214,20 +209,7 @@ export function SceneTokensTable({
                 }
               };
 
-              const playerContext = usePlayerContext();
-              const [players, setPlayers] = useState<Array<Player>>([]);
-              const owner = players.find((p) => p.id === token.item.createdUserId)?.id ?? playerContext.id ?? "";
-            
-              useEffect(() => {
-                    const initPlayerList = async () => {
-                        setPlayers(await OBR.party.getPlayers());
-                    };
-            
-                    initPlayerList();
-                    return OBR.party.onChange((players) => {
-                        setPlayers(players);
-                    });
-                }, []);
+              const owner = players.find((p) => p.id === token.item.createdUserId)?.id;
 
               return (
                 <SortableTableRow
