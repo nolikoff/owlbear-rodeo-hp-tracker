@@ -1,6 +1,5 @@
 import { Modal } from "@owlbear-rodeo/sdk/lib/types/Modal";
 import { Popover } from "@owlbear-rodeo/sdk";
-import { Stats } from "../components/general/DiceRoller/DiceButtonWrapper.tsx";
 
 export const ID = "com.bitperfect-software.hp-tracker";
 export const metadataKey = `${ID}/metadata`;
@@ -69,13 +68,4 @@ export const statblockPopover: Popover = {
     marginThreshold: 10,
     anchorReference: "POSITION",
     disableClickAway: true,
-};
-
-export const defaultStats: Stats = {
-    strength: 0,
-    dexterity: 0,
-    constitution: 0,
-    intelligence: 0,
-    wisdom: 0,
-    charisma: 0,
 };
