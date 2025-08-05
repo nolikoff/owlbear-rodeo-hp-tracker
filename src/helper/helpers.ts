@@ -119,62 +119,7 @@ export const sortItems = (a: Item, b: Item) => {
     return 0;
 };
 
-/**
- * This function is used to determine the order of Items in the player view and in the Battle Tracker
- * It compares the index of the tokens to match the current order in the GM View.
- *
- * This function must not be used to order the Tokens in the GM view because in case Initiative order is reversed the index compare will always trigger a reorder
- * @param a
- * @param b
- */
-export const sortItemsInitiative = (a: Item, b: Item) => {
-    const aData = a.metadata[itemMetadataKey] as GMGMetadata;
-    const bData = b.metadata[itemMetadataKey] as GMGMetadata;
-    if (
-        bData.initiative === aData.initiative &&
-        !isUndefined(bData.stats.initiativeBonus) &&
-        !isUndefined(aData.stats.initiativeBonus)
-    ) {
-        if (
-            bData.stats.initiativeBonus === aData.stats.initiativeBonus &&
-            !isUndefined(bData.index) &&
-            !isUndefined(aData.index)
-        ) {
-            return aData.index - bData.index;
-        }
-        return bData.stats.initiativeBonus - aData.stats.initiativeBonus;
-    }
-    return bData.initiative - aData.initiative;
-};
 
-/**
- * This function is used to determine the order of Items in the GM view it compares initiative and initiative bonus but doesn't look at the index because in case to items have the same value the index in the GM view does not matter.
- *
- * This function must not be used to order the Tokens in the player view or the battle tracker because it might lead to a reverse order of tokens based on index
- * @param a
- * @param b
- * @param reverse
- */
-export const sortByInitiative = (a: Item, b: Item, reverse: boolean) => {
-    const aData = a.metadata[itemMetadataKey] as GMGMetadata;
-    const bData = b.metadata[itemMetadataKey] as GMGMetadata;
-    if (
-        bData.initiative === aData.initiative &&
-        !isUndefined(bData.stats.initiativeBonus) &&
-        !isUndefined(aData.stats.initiativeBonus)
-    ) {
-        if (reverse) {
-            return aData.stats.initiativeBonus - bData.stats.initiativeBonus;
-        } else {
-            return bData.stats.initiativeBonus - aData.stats.initiativeBonus;
-        }
-    }
-    if (reverse) {
-        return aData.initiative - bData.initiative;
-    } else {
-        return bData.initiative - aData.initiative;
-    }
-};
 
 export const generateSlug = (string: string) => {
     let str = string.replace(/^\s+|\s+$/g, "");
@@ -185,13 +130,6 @@ export const generateSlug = (string: string) => {
         .replace(/-+/g, "-");
 
     return str;
-};
-
-export const getDamage = (text: string) => {
-    const regex = /\d+d\d+/gi;
-    const dice = regex.exec(text);
-
-    return dice && dice.length > 0 ? dice[0] : null;
 };
 
 export const attachmentFilter = (attachment: Item, attachmentType: "BAR" | "HP" | "AC") => {
@@ -358,140 +296,6 @@ export const getTASettings = async (): Promise<UserSettings | null> => {
     return null;
 };
 
-export const getInitialValues = async (items: Array<Image>, getDarkVision: boolean = false) => {
-    const roomData = await OBR.room.getMetadata();
-    let ruleset = "e5";
-    let apiKey = undefined;
-    if (metadataKey in roomData) {
-        const room = roomData[metadataKey] as RoomMetadata;
-        ruleset = room.ruleset || "e5";
-        apiKey = room.tabletopAlmanacAPIKey;
-    }
-    const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : {};
-    const itemInitValues: Record<string, InitialStatblockData> = {};
-    const srdSources = ["cc", "menagerie", "ta", "tob", "tob3", "wotc14", "wotc24"];
-    
-    axiosRetry(axios, {
-        retries: 2,
-        retryDelay: (_) => 200,
-        retryCondition: (error) => error.message === "Network Error",
-    });
-
-    for (const item of items) {
-        try {
-            const name = getSearchString(getTokenName(item));
-            if (!(itemMetadataKey in item.metadata)) {
-                if (ruleset === "e5") {
-                    const statblocks = await axios.request({
-                        url: `${TTRPG_URL}/e5/statblock/search/`,
-                        method: "GET",
-                        headers: headers,
-                        params: {
-                            search_string: name,
-                            take: 20,
-                            skip: 0,
-                        },
-                    });
-                let bestMatch: BestMatch | undefined = undefined;
-                    const diff = new diff_match_patch();
-                    statblocks.data.forEach((statblock: E5Statblock) => {
-                        const d = diff.diff_main(statblock.name, name);
-                        const dist = diff.diff_levenshtein(d);
-                        if (isBestMatch(dist, statblock, bestMatch)) {
-                            const equipmentData = {
-                                equipped: statblock.equipment?.filter((e) => e.equipped).map((e) => e.item.slug) || [],
-                                attuned: statblock.equipment?.filter((e) => e.attuned).map((e) => e.item.slug) || [],
-                            };
-                            const equipmentBonuses = getEquipmentBonuses(
-                                // we only need the equipment data in this function
-                                { equipment: equipmentData } as GMGMetadata,
-                                statblock.stats,
-                                statblock.equipment || [],
-                            );
-
-                            const combinedAC = equipmentBonuses.ac || statblock.armor_class.value;
-
-                            bestMatch = {
-                                source: statblock.source,
-                                distance: dist,
-                                statblock: {
-                                    hp: statblock.hp.value + equipmentBonuses.statblockBonuses.hpBonus,
-                                    ac: combinedAC + equipmentBonuses.statblockBonuses.ac,
-                                    bonus:
-                                        statblock.initiative ?? Math.floor((equipmentBonuses.stats.dexterity - 10) / 2),
-                                    slug: statblock.slug,
-                                    ruleset: "e5",
-                                    limits: getLimitsE5(statblock),
-                                    equipment: equipmentData,
-                                    darkvision: getDarkVision
-                                        ? Number(
-                                              statblock.senses
-                                                  ?.find((s) => s.toLowerCase().includes("darkvision"))
-                                                  ?.replace(/\D/g, ""),
-                                          )
-                                        : null,
-                                },
-                            };
-                        }
-                    });
-                    if (bestMatch !== undefined) {
-                    // @ts-ignore statblock exists on bestMatch;
-                        itemInitValues[item.id] = bestMatch.statblock;
-                    }
-                } else if (ruleset === "pf") {
-                    const statblocks = await axios.request({
-                        url: `${TTRPG_URL}/pf/statblock/search/`,
-                        method: "GET",
-                        headers: headers,
-                        params: {
-                            name: name,
-                            take: 10,
-                            skip: 0,
-                        },
-                    });
-                    let bestMatch: { distance: number; statblock: InitialStatblockData } | undefined = undefined;
-                    const diff = new diff_match_patch();
-                    statblocks.data.forEach((statblock: PfStatblock) => {
-                        const d = diff.diff_main(statblock.name, name);
-                        const dist = diff.diff_levenshtein(d);
-                        if (
-                            bestMatch === undefined ||
-                            dist < bestMatch.distance ||
-                            (dist === bestMatch.distance && statblock.source !== null)
-                        ) {
-                            bestMatch = {
-                                distance: dist,
-                                statblock: {
-                                    hp: statblock.hp.value,
-                                    ac: statblock.armor_class.value,
-                                    bonus: statblock.perception
-                                        ? parseInt(statblock.perception)
-                                        : statblock.skills && "perception" in statblock.skills
-                                          ? parseInt(statblock.skills["perception"] as string)
-                                          : 0,
-                                    slug: statblock.slug,
-                                    ruleset: "pf",
-                                    limits: getLimitsPf(statblock),
-                                    darkvision: null,
-                                },
-                            };
-                        }
-                    });
-                    if (bestMatch !== undefined) {
-                        // @ts-ignore statblock exists on bestMatch;
-                        itemInitValues[item.id] = bestMatch.statblock;
-                    }
-                }
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-    
-    return itemInitValues;
-};
-
-
 export const updateLimit = async (itemId: string, limitValues: Limit, usage?: number) => {
     if (limitValues) {
         await updateItems([itemId], (items) => {
@@ -551,12 +355,6 @@ export const prepareTokenForGrimoire = async (contextItems: Array<Image>) => {
                         hpOnMap: settings?.default_token_settings?.hpOnMap || false,
                         acOnMap: settings?.default_token_settings?.acOnMap || false,
                         hpBar: settings?.default_token_settings?.hpOnMap || false,
-                        initiative: 0,
-                        sheet: "",
-                        stats: {
-                            initiativeBonus: 0,
-                            initial: true,
-                        },
                         playerMap: {
                             hp: settings?.default_token_settings?.playerMap?.hp || false,
                             ac: settings?.default_token_settings?.playerMap?.ac || false,
@@ -564,24 +362,11 @@ export const prepareTokenForGrimoire = async (contextItems: Array<Image>) => {
                         playerList: settings?.default_token_settings?.playerList || false,
                     };
                     if (item.id in itemStatblocks) {
-                        defaultMetadata.sheet = itemStatblocks[item.id].slug;
                         defaultMetadata.maxHp = itemStatblocks[item.id].hp;
                         defaultMetadata.hp = itemStatblocks[item.id].hp;
                         defaultMetadata.armorClass = itemStatblocks[item.id].ac;
-                        defaultMetadata.stats.initiativeBonus = itemStatblocks[item.id].bonus;
-                        defaultMetadata.stats.initial = true;
-                        defaultMetadata.stats.limits = itemStatblocks[item.id].limits;
-                        defaultMetadata.equipment = itemStatblocks[item.id].equipment;
                     }
                     item.metadata[itemMetadataKey] = defaultMetadata;
-                    if (settings?.assign_ss_darkvision && itemStatblocks[item.id]?.darkvision) {
-                        item.metadata["com.battle-system.smoke/visionDark"] = String(
-                            itemStatblocks[item.id].darkvision,
-                        );
-                        item.metadata["com.battle-system.smoke/visionRange"] = String(
-                            itemStatblocks[item.id].darkvision,
-                        );
-                    }
                 }
             });
         },
@@ -589,46 +374,6 @@ export const prepareTokenForGrimoire = async (contextItems: Array<Image>) => {
     return tokenIds;
 };
 
-export const reorderMetadataIndex = async (list: Array<Image>, group?: string) => {
-    const chunks = chunk(list, 12);
-    let index = 0;
-    for (const subList of chunks) {
-        try {
-            await updateItems(
-                subList.map((i) => i.id),
-                (items) => {
-                    items.forEach((item) => {
-                        const data = item.metadata[itemMetadataKey] as GMGMetadata;
-                        data.index = index;
-                        if (group) {
-                            data.group = group;
-                        }
-                        index++;
-                        item.metadata[itemMetadataKey] = { ...data };
-                    });
-                },
-            );
-        } catch (e) {
-            const errorName =
-                isObject(e) && "error" in e && isObject(e.error) && "name" in e.error
-                    ? e.error.name
-                    : "Undefined Error";
-            console.warn(`GM's Grimoire: Error while updating reordering ${subList.length} tokens: ${errorName}`);
-        }
-    }
-};
-
-export const orderByInitiative = async (tokenMap: Map<string, Array<Image>>, reverse: boolean = false) => {
-    const groups = tokenMap.values();
-
-    for (const group of groups) {
-        const reordered = Array.from(group);
-        reordered.sort((a, b) => sortByInitiative(a, b, reverse));
-        if (!isEqual(group, reordered)) {
-            await reorderMetadataIndex(reordered);
-        }
-    }
-};
 export const modulo = (n: number, m: number) => {
     return ((n % m) + m) % m;
 };
