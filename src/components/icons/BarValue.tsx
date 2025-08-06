@@ -5,6 +5,7 @@ export const BarValue = () => (
     height="24px"
     viewBox="0 0 40 24"
     fill="currentColor"
+    fill-rule="evenodd"
     classname="lucide lucide-bar-value"
   >
     <g id="surface1">
