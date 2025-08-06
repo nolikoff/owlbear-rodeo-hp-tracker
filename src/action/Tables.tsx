@@ -242,10 +242,13 @@ export function SceneTokensTable({
                       <div className="relative justify-items-stretch gap-2 mx-auto flex w-full items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
                           <g id="drop">
-                            <path style={{
-                                    fill:
-                                      players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
-                                }} d="M 12 21.601562 C 8.03125 21.601562 4.800781 18.371094 4.800781 14.398438 C 4.800781 10.539062 9.960938 3.816406 12 2.523438 C 14.039062 3.816406 19.199219 10.539062 19.199219 14.398438 C 19.199219 18.371094 15.96875 21.601562 12 21.601562 M 12 0 C 9.601562 0 2.398438 9.097656 2.398438 14.398438 C 2.398438 19.703125 6.699219 24 12 24 C 17.300781 24 21.601562 19.703125 21.601562 14.398438 C 21.601562 9.097656 14.398438 0 12 0 "></path>
+                            <path 
+                              style={{
+                                fill:
+                                  players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
+                              }} 
+                              d="M 12 21.601562 C 8.03125 21.601562 4.800781 18.371094 4.800781 14.398438 C 4.800781 10.539062 9.960938 3.816406 12 2.523438 C 14.039062 3.816406 19.199219 10.539062 19.199219 14.398438 C 19.199219 18.371094 15.96875 21.601562 12 21.601562 M 12 0 C 9.601562 0 2.398438 9.097656 2.398438 14.398438 C 2.398438 19.703125 6.699219 24 12 24 C 17.300781 24 21.601562 19.703125 21.601562 14.398438 C 21.601562 9.097656 14.398438 0 12 0 ">
+                            </path>
                           </g>
                         </svg>
                         <select
@@ -257,7 +260,12 @@ export function SceneTokensTable({
                                     });
                                 });
                             }}
-                            className={"select-owner flex rounded-md border px-2 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-mirage-500 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 dark:border-mirage-800 dark:placeholder:text-mirage-400 dark:focus-visible:ring-primary-dark h-[32px] w-full"}
+                            className={
+                              "select-owner flex rounded-md border px-2 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-mirage-500 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 dark:border-mirage-800 dark:placeholder:text-mirage-400 dark:focus-visible:ring-primary-dark h-[32px] w-full"
+                            }
+                            style={
+                              "background: transparent;"
+                            }
                         >
                             <option value={OBR.player.id}>GM</option>
                             {players.map((player) => {
