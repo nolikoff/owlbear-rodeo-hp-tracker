@@ -471,7 +471,7 @@ function TokenTableCell({
 }): JSX.Element {
   const image = (
     <img
-      className="min-h-10 min-w-10"
+      className="min-h-8 min-w-8"
       src={(token.item as Image).image.url}
     ></img>
   );
