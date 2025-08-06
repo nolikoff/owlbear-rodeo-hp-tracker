@@ -272,7 +272,7 @@ export function SceneTokensTable({
                             });
                           }}
                         >
-                          <SelectTrigger className="w-[140px]">
+                          <SelectTrigger className="w-[128px] h-[32px]">
                             <SelectValue placeholder="Editor Mode" />
                           </SelectTrigger>
                           <SelectContent>
