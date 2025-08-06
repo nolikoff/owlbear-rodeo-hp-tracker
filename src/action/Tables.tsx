@@ -151,6 +151,8 @@ export function SceneTokensTable({
               )}
             </TableRow>
           </TableHeader>
+        </Table>
+        <Table tabIndex={-1}>
           <TableBody>
             {tokens.map((token) => {
               const included = getIncluded(
