@@ -2,7 +2,6 @@ export const BarNoValue = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24x"
-    height="24px"
     viewBox="0 0 40 24"
     fill="currentColor"
     classname="lucide lucide-bar-no-value"
