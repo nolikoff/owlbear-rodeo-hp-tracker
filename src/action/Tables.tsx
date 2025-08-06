@@ -252,7 +252,9 @@ export function SceneTokensTable({
                           </g>
                         </svg>
 
-                        <Select
+                        <Select></Select>
+
+{/*                         <Select
                           value={appState.operation}
                           onValueChange={(value) => {
                             dispatch({
@@ -273,7 +275,7 @@ export function SceneTokensTable({
                             <SelectItem value="overwrite">Overwrite Multiple</SelectItem>
                           </SelectGroup>
                         </SelectContent>
-                      </Select>
+                      </Select> */}
                         
 {/*                         <select
                             value={token.item.createdUserId}
