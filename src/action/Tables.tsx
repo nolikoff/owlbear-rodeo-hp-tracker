@@ -259,8 +259,8 @@ export function SceneTokensTable({
                                 items.forEach((item) => {
                                     item.createdUserId = e.target.value;
                                 });
-                            }); */}
-                          }}
+                            });
+                          }} */}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Editor Mode" />
