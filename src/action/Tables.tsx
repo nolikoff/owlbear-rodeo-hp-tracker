@@ -239,14 +239,18 @@ export function SceneTokensTable({
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
                     <TableCell>
-                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
-                        <div
-                          className={"owner-color"}
-                          style={{
-                              backgroundColor:
-                                  players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
-                          }}
-                        ></div>
+                      <div className="relative justify-items-stretch gap-2 mx-auto flex w-full items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                          <g id="drop">
+                            <path style={{
+                                    stroke:none,
+                                    fill-rule:evenodd,
+                                    fill:
+                                      players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
+                                    sfill-opacity:1,
+                                }} d="M 12 21.601562 C 8.03125 21.601562 4.800781 18.371094 4.800781 14.398438 C 4.800781 10.539062 9.960938 3.816406 12 2.523438 C 14.039062 3.816406 19.199219 10.539062 19.199219 14.398438 C 19.199219 18.371094 15.96875 21.601562 12 21.601562 M 12 0 C 9.601562 0 2.398438 9.097656 2.398438 14.398438 C 2.398438 19.703125 6.699219 24 12 24 C 17.300781 24 21.601562 19.703125 21.601562 14.398438 C 21.601562 9.097656 14.398438 0 12 0 "></path>
+                          </g>
+                        </svg>
                         <select
                             value={token.item.createdUserId}
                             onChange={async (e) => {
