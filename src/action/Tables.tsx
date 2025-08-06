@@ -257,7 +257,7 @@ export function SceneTokensTable({
                                     });
                                 });
                             }}
-                            className={"select-owner"}
+                            className={"select-owner flex rounded-md border px-2 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-mirage-500 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 dark:border-mirage-800 dark:placeholder:text-mirage-400 dark:focus-visible:ring-primary-dark h-[32px] w-full"}
                         >
                             <option value={OBR.player.id}>GM</option>
                             {players.map((player) => {
