@@ -252,8 +252,6 @@ export function SceneTokensTable({
                           </g>
                         </svg>
 
-                        <Select></Select>
-
 {/*                         <Select
                           value={appState.operation}
                           onValueChange={(value) => {
