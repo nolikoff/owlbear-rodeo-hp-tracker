@@ -116,40 +116,38 @@ export function SceneTokensTable({
       >
         <Table tabIndex={-1}>
           <TableHeader>
-            <TableRow>
-              {appState.operation !== "none" && (
-                <CheckboxTableHead
-                  included={allChecked(tokens, appState.includedItems)}
-                  onCheckedChange={(checked) =>
-                    dispatch({
-                      type: "set-included-items",
-                      includedItems: new Map(
-                        tokens.map((token) => [token.item.id, checked]),
-                      ),
-                    })
-                  }
-                />
-              )}
-              <TableHead>Token</TableHead>
-              {appState.operation === "none" && playerRole === "GM" && (
-                <TableHead>Access</TableHead>
-              )}
-              {appState.operation === "none" && playerRole === "GM" && (
-                <TableHead>Owner</TableHead>
-              )}
-              {appState.operation !== "damage" && (
-                <TableHead title="Hit Points / Maximum Hit Points, Temporary Hit Points">
-                  Stats
-                </TableHead>
-              )}
-              {appState.operation === "damage" && (
-                <>
-                  <TableHead>Multiplier</TableHead>
-                  <TableHead>Damage</TableHead>
-                  <TableHead>New Hit Points</TableHead>
-                </>
-              )}
-            </TableRow>
+            {appState.operation !== "none" && (
+              <CheckboxTableHead
+                included={allChecked(tokens, appState.includedItems)}
+                onCheckedChange={(checked) =>
+                  dispatch({
+                    type: "set-included-items",
+                    includedItems: new Map(
+                      tokens.map((token) => [token.item.id, checked]),
+                    ),
+                  })
+                }
+              />
+            )}
+            <TableHead>Token</TableHead>
+            {appState.operation === "none" && playerRole === "GM" && (
+              <TableHead>Access</TableHead>
+            )}
+            {appState.operation === "none" && playerRole === "GM" && (
+              <TableHead>Owner</TableHead>
+            )}
+            {appState.operation !== "damage" && (
+              <TableHead title="Hit Points / Maximum Hit Points, Temporary Hit Points">
+                Stats
+              </TableHead>
+            )}
+            {appState.operation === "damage" && (
+              <>
+                <TableHead>Multiplier</TableHead>
+                <TableHead>Damage</TableHead>
+                <TableHead>New Hit Points</TableHead>
+              </>
+            )}
           </TableHeader>
           <TableBody>
             {tokens.map((token) => {
