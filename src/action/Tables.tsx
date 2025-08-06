@@ -269,9 +269,9 @@ export function SceneTokensTable({
                               
                           //  }}
                         >
-                          <SelectTrigger className="w-[180px]">
+{/*                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Editor Mode" />
-                          </SelectTrigger>
+                          </SelectTrigger>*/}
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Owner</SelectLabel>
