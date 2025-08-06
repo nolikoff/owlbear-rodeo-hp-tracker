@@ -264,9 +264,13 @@ export function SceneTokensTable({
 
                         <Select
                           value={token.item.createdUserId}
-                          onValueChange={(value) => {
-                            token.item.createdUserId = value;
-                          }}
+                          onValueChange={async (value) => {
+                                await OBR.scene.items.updateItems([token.item], (items) => {
+                                    items.forEach((item) => {
+                                        item.createdUserId = value;
+                                    });
+                                });
+                            }}
                         >
                           <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Editor Mode" />
