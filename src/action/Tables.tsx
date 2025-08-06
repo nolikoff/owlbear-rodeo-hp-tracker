@@ -253,39 +253,27 @@ export function SceneTokensTable({
                         </svg>
 
                         <Select
-                          value={token.item.createdUserId}
-                          // onValueChange={(value) => {
-                          //  OBR.scene.items.updateItems([token.item], (items) => {
-                          //     items.forEach((item) => {
-                          //          item.createdUserId = value;
-                          //      });
-                          //});       
-                            // onValueChange={async (e) => {
-                            // await OBR.scene.items.updateItems([token.item], (items) => {
-                            //     items.forEach((item) => {
-                            //         item.createdUserId = e.target.value;
-                            //     });
-                            // });
-                              
-                          //  }}
+                          value={appState.operation}
+                          onValueChange={(value) => {
+                            dispatch({
+                              type: "set-operation",
+                              operation: value as Operation,
+                            });
+                          }}
                         >
-{/*                           <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Editor Mode" />
-                          </SelectTrigger>*/}
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Owner</SelectLabel>
-                              <SelectItem value={OBR.player.id}>GM</SelectItem>
-                              {players.map((player) => {
-                                  return (
-                                      <SelectItem value={player.id}>
-                                          {player.name}
-                                      </SelectItem>
-                                  );
-                              })}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Editor Mode" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Operation</SelectLabel>
+                            <SelectItem value="none">None</SelectItem>
+                            <SelectItem value="damage">Damage</SelectItem>
+                            <SelectItem value="healing">Heal</SelectItem>
+                            <SelectItem value="overwrite">Overwrite Multiple</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                         
 {/*                         <select
                             value={token.item.createdUserId}
