@@ -43,6 +43,19 @@ export default function BulkEditor(): JSX.Element {
   const [playerName, setPlayerName] = useState("");
   const [sceneReady, setSceneReady] = useState(false);
 
+  useEffect(() => {
+      if (playerRole === "PLAYER") {
+        // use your prefered values for players here
+        OBR.action.setHeight(200)
+        OBR.action.setWidth(200)
+      } else {
+        // same values as set in the manifest are used for gm
+        OBR.action.setHeight(520)
+        OBR.action.setWidth(580)
+      }
+    }, [playerRole] // rerun if playerRole changes
+  )
+  
   // Tokens filter state
   const selectionFilter = (token: Token) =>
     //PL (appState.showItems === "ALL" ||
