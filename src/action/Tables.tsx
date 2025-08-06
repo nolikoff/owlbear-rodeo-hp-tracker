@@ -58,6 +58,16 @@ import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { SmartMouseSensor } from "./SmartPointerSensor";
 import { SortableTableRow } from "./SortableTableRow";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 export function SceneTokensTable({
   appState,
   dispatch,
