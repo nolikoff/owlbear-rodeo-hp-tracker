@@ -250,62 +250,48 @@ export function SceneTokensTable({
                   {appState.operation === "none" && playerRole === "GM" && (
                     <TableCell>
                       <div className="relative gap-2 flex items-center min-w-[140px]">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20px"
-                              height="20px"
-                              viewBox="0 0 20 20"
-                              classname="lucide lucide-color-drop"
-                            >
-                              <path 
-                                style={{
-                                  fill:
-                                    players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
-                                }} 
-                                d="M 10 18 C 6.691406 18 4 15.308594 4 12 C 4 8.78125 8.300781 3.179688 10 2.105469 C 11.699219 3.179688 16 8.78125 16 12 C 16 15.308594 13.308594 18 10 18 M 10 0 C 8 0 2 7.582031 2 12 C 2 16.417969 5.582031 20 10 20 C 14.417969 20 18 16.417969 18 12 C 18 7.582031 12 0 10 0 ">
-                              </path>
-                            </svg>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            "Owner Color"
-                          </TooltipContent>
-                        </Tooltip>
-
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Select
-                              value={token.item.createdUserId}
-                              onValueChange={async (value) => {
-                                await OBR.scene.items.updateItems([token.item], (items) => {
-                                  items.forEach((item) => {
-                                    item.createdUserId = value;
-                                  });
-                                });
-                              }}
-                            >
-                              <SelectTrigger className="w-[128px] h-[32px]">
-                                <SelectValue placeholder="Editor Mode" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectItem value={OBR.player.id}>GM</SelectItem>
-                                  {players.map((player) => {
-                                    return (
-                                      <SelectItem value={player.id}>
-                                          {player.name}
-                                      </SelectItem>
-                                    );
-                                })}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            "Owner Name"
-                          </TooltipContent>
-                        </Tooltip>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20px"
+                          height="20px"
+                          viewBox="0 0 20 20"
+                          classname="lucide lucide-color-drop"
+                        >
+                          <path 
+                            style={{
+                              fill:
+                                players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
+                            }} 
+                            d="M 10 18 C 6.691406 18 4 15.308594 4 12 C 4 8.78125 8.300781 3.179688 10 2.105469 C 11.699219 3.179688 16 8.78125 16 12 C 16 15.308594 13.308594 18 10 18 M 10 0 C 8 0 2 7.582031 2 12 C 2 16.417969 5.582031 20 10 20 C 14.417969 20 18 16.417969 18 12 C 18 7.582031 12 0 10 0 ">
+                          </path>
+                        </svg>
+  
+                        <Select
+                          value={token.item.createdUserId}
+                          onValueChange={async (value) => {
+                            await OBR.scene.items.updateItems([token.item], (items) => {
+                              items.forEach((item) => {
+                                item.createdUserId = value;
+                              });
+                            });
+                          }}
+                        >
+                          <SelectTrigger className="w-[128px] h-[32px]">
+                            <SelectValue placeholder="Editor Mode" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value={OBR.player.id}>GM</SelectItem>
+                              {players.map((player) => {
+                                return (
+                                  <SelectItem value={player.id}>
+                                      {player.name}
+                                  </SelectItem>
+                                );
+                            })}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </TableCell>
                   )}
