@@ -293,7 +293,7 @@ export function SceneTokensTable({
                   )}
                   {appState.operation !== "damage" && (
                     <TableCell>
-                      <div className="grid min-w-[140px] grid-cols-2 justify-items-stretch gap-2 sm:min-w-[250px] sm:grid-cols-4">
+                      <div className="grid min-w-[128px] grid-cols-2 justify-items-stretch gap-2 grid-template-columns-[1fr]">
                         <div className="col-span-2 flex items-center justify-between gap-1">
                           <StatInput
                             parentValue={token.health}
