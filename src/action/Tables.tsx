@@ -254,19 +254,28 @@ export function SceneTokensTable({
 
                         <Select
                           value={token.item.createdUserId}
-{/*                           onValueChange={async (e) => {
-                            await OBR.scene.items.updateItems([token.item], (items) => {
+                          onValueChange={(value) => {
+                            OBR.scene.items.updateItems([token.item], (items) => {
                                 items.forEach((item) => {
-                                    item.createdUserId = e.target.value;
+                                    item.createdUserId = value;
                                 });
                             });
-                          }} */}
+                            
+                            // onValueChange={async (e) => {
+                            // await OBR.scene.items.updateItems([token.item], (items) => {
+                            //     items.forEach((item) => {
+                            //         item.createdUserId = e.target.value;
+                            //     });
+                            // });
+                              
+                          }}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Editor Mode" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
+                              <SelectLabel>Owner</SelectLabel>
                               <SelectItem value={OBR.player.id}>GM</SelectItem>
                               {players.map((player) => {
                                   return (
