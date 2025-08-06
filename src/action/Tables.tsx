@@ -252,28 +252,22 @@ export function SceneTokensTable({
                           </g>
                         </svg>
 
-{/*                         <Select
-                          value={appState.operation}
+                        <Select
+                          value={token.item.createdUserId}
                           onValueChange={(value) => {
-                            dispatch({
-                              type: "set-operation",
-                              operation: value as Operation,
-                            });
+                            alert(value);
                           }}
                         >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Editor Mode" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Operation</SelectLabel>
-                            <SelectItem value="none">None</SelectItem>
-                            <SelectItem value="damage">Damage</SelectItem>
-                            <SelectItem value="healing">Heal</SelectItem>
-                            <SelectItem value="overwrite">Overwrite Multiple</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select> */}
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Editor Mode" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Owner</SelectLabel>
+                              <SelectItem value={OBR.player.id}>GM</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                      </Select>
                         
 {/*                         <select
                             value={token.item.createdUserId}
