@@ -124,9 +124,9 @@ export function SceneTokensTable({
               {appState.operation === "none" && playerRole === "GM" && (
                 <TableHead>Access</TableHead>
               )}
-              {appState.operation === "none" && playerRole === "GM" && (
+{/*               {appState.operation === "none" && playerRole === "GM" && (
                 <TableHead>Owner</TableHead>
-              )}
+              )} */}
               {appState.operation !== "damage" && (
                 <TableHead title="Hit Points / Maximum Hit Points, Temporary Hit Points">
                   Stats
