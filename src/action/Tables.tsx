@@ -123,6 +123,8 @@ export function SceneTokensTable({
               <TableHead>Token</TableHead>
               {appState.operation === "none" && playerRole === "GM" && (
                 <TableHead>Access</TableHead>
+              )}
+              {appState.operation === "none" && playerRole === "GM" && (
                 <TableHead>Owner</TableHead>
               )}
               {appState.operation !== "damage" && (
