@@ -98,12 +98,10 @@ export function SceneTokensTable({
       sensors={sensors}
       modifiers={[restrictToFirstScrollableAncestor]}
       collisionDetection={closestCenter}
-/*PL  onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}} */
-      onDragEnd={playerRole === "GM" ||  playerRole === "PLAYER" ? handleDragEnd : () => {}}
+      onDragEnd={playerRole === "GM" ? handleDragEnd : () => {}}
     >
       <SortableContext
-/*PL    items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []} */
-        items={playerRole === "GM" ||  playerRole === "PLAYER" ? tokens.map((token) => token.item.id) : []}
+        items={playerRole === "GM" ? tokens.map((token) => token.item.id) : []}
         strategy={verticalListSortingStrategy}
       >
         <Table tabIndex={-1}>
@@ -125,6 +123,7 @@ export function SceneTokensTable({
               <TableHead>Token</TableHead>
               {appState.operation === "none" && playerRole === "GM" && (
                 <TableHead>Access</TableHead>
+                <TableHead>Owner</TableHead>
               )}
               {appState.operation !== "damage" && (
                 <TableHead title="Hit Points / Maximum Hit Points, Temporary Hit Points">
@@ -418,7 +417,7 @@ function AccessButton({
             }
           >
             {token.hideStats ? (
-              <div className="text-primary-500 dark:text-primary-dark">
+              <div className="text-primary-500 dark:text-primary-dark" style="align-items: center">
                 <BookLock />
               </div>
             ) : (
