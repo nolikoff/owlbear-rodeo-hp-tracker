@@ -5,6 +5,7 @@ export const BarNoValue = () => (
     height="24px"
     viewBox="0 0 40 24"
     fill="currentColor"
+    fill-rule="evenodd"
     classname="lucide lucide-bar-no-value"
   >
     <defs>
