@@ -467,7 +467,7 @@ function TokenTableCell({
 }): JSX.Element {
   const image = (
     <img
-      className="min-h-8 min-w-8"
+      className="min-h-10 min-w-10"
       src={(token.item as Image).image.url}
     ></img>
   );
@@ -478,7 +478,7 @@ function TokenTableCell({
           <div className="flex items-center">
             <button
               className={cn(
-                "size-12 font-medium outline-none sm:size-8",
+                "size-12 font-medium outline-none sm:size-10",
                 {
                   "opacity-60": faded,
                 },
