@@ -268,13 +268,19 @@ export function SceneTokensTable({
                             alert(value);
                           }}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Editor Mode" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectLabel>Owner</SelectLabel>
                               <SelectItem value={OBR.player.id}>GM</SelectItem>
+                              {players.map((player) => {
+                                return (
+                                    <SelectItem value={player.id}>
+                                        {player.name}
+                                    </SelectItem>
+                                );
+                            })}
                             </SelectGroup>
                           </SelectContent>
                       </Select>
