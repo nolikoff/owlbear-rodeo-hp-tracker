@@ -1,6 +1,7 @@
 export const BarNoValue = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     width="24px"
     height="24px"
     viewBox="0 0 40 24"
