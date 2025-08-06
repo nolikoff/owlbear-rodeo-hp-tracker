@@ -11,7 +11,7 @@
       "title": "HP Tracker",
       "icon": "/icon.svg",
       "popover": "/src/action/action.html",
-      "height": 522,
-      "width": 545
+      "height": 520,
+      "width": 580
   }
 }
