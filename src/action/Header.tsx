@@ -79,7 +79,7 @@ export default function Header({
           </Button>
         </>
       ) : (
-        <div className="flex gap-2">
+        <div class="justify-center h-9">
         </div>
       )}
     </div>
