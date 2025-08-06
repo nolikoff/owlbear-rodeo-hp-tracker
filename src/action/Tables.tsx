@@ -482,7 +482,7 @@ function TokenTableCell({
           <div className="flex items-center">
             <button
               className={cn(
-                "size-12 font-medium outline-none sm:size-10",
+                "size-8 font-medium outline-none sm:size-8",
                 {
                   "opacity-60": faded,
                 },
