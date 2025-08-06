@@ -251,7 +251,35 @@ export function SceneTokensTable({
                             </path>
                           </g>
                         </svg>
-                        <select
+
+                        <Select
+                          value={token.item.createdUserId}
+                          onValueChange={(value) => {
+                            await OBR.scene.items.updateItems([token.item], (items) => {
+                                items.forEach((item) => {
+                                    item.createdUserId = value;
+                                });
+                            });
+                          }}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Editor Mode" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value={OBR.player.id}>GM</SelectItem>
+                              {players.map((player) => {
+                                  return (
+                                      <SelectItem value={player.id}>
+                                          {player.name}
+                                      </SelectItem>
+                                  );
+                              })}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        
+{/*                         <select
                             value={token.item.createdUserId}
                             onChange={async (e) => {
                                 await OBR.scene.items.updateItems([token.item], (items) => {
@@ -275,7 +303,7 @@ export function SceneTokensTable({
                                     </option>
                                 );
                             })}
-                        </select>
+                        </select> */}
                       </div>
                     </TableCell>
                   )}
