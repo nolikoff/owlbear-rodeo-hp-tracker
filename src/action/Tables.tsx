@@ -239,7 +239,7 @@ export function SceneTokensTable({
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
                     <TableCell>
-                      <div className="relative justify-items-stretch gap-2 mx-auto flex w-full items-center">
+                      <div className="relative gap-2 flex items-center min-w-[140px]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
                           <g id="drop">
                             <path 
