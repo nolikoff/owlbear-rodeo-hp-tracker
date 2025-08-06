@@ -250,14 +250,14 @@ export function SceneTokensTable({
                   {appState.operation === "none" && playerRole === "GM" && (
                     <TableCell>
                       <div className="relative gap-2 flex items-center min-w-[140px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 20 20">
                           <g id="drop">
                             <path 
                               style={{
                                 fill:
                                   players.find((p) => p.id === token.item.createdUserId)?.color ?? "transparent",
                               }} 
-                              d="M 12 21.601562 C 8.03125 21.601562 4.800781 18.371094 4.800781 14.398438 C 4.800781 10.539062 9.960938 3.816406 12 2.523438 C 14.039062 3.816406 19.199219 10.539062 19.199219 14.398438 C 19.199219 18.371094 15.96875 21.601562 12 21.601562 M 12 0 C 9.601562 0 2.398438 9.097656 2.398438 14.398438 C 2.398438 19.703125 6.699219 24 12 24 C 17.300781 24 21.601562 19.703125 21.601562 14.398438 C 21.601562 9.097656 14.398438 0 12 0 ">
+                              d="M 10 18 C 6.691406 18 4 15.308594 4 12 C 4 8.78125 8.300781 3.179688 10 2.105469 C 11.699219 3.179688 16 8.78125 16 12 C 16 15.308594 13.308594 18 10 18 M 10 0 C 8 0 2 7.582031 2 12 C 2 16.417969 5.582031 20 10 20 C 14.417969 20 18 16.417969 18 12 C 18 7.582031 12 0 10 0 ">
                             </path>
                           </g>
                         </svg>
@@ -265,12 +265,12 @@ export function SceneTokensTable({
                         <Select
                           value={token.item.createdUserId}
                           onValueChange={async (value) => {
-                                await OBR.scene.items.updateItems([token.item], (items) => {
-                                    items.forEach((item) => {
-                                        item.createdUserId = value;
-                                    });
-                                });
-                            }}
+                            await OBR.scene.items.updateItems([token.item], (items) => {
+                              items.forEach((item) => {
+                                item.createdUserId = value;
+                              });
+                            });
+                          }}
                         >
                           <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Editor Mode" />
@@ -280,40 +280,14 @@ export function SceneTokensTable({
                               <SelectItem value={OBR.player.id}>GM</SelectItem>
                               {players.map((player) => {
                                 return (
-                                    <SelectItem value={player.id}>
-                                        {player.name}
-                                    </SelectItem>
+                                  <SelectItem value={player.id}>
+                                      {player.name}
+                                  </SelectItem>
                                 );
                             })}
                             </SelectGroup>
                           </SelectContent>
-                      </Select>
-                        
-{/*                         <select
-                            value={token.item.createdUserId}
-                            onChange={async (e) => {
-                                await OBR.scene.items.updateItems([token.item], (items) => {
-                                    items.forEach((item) => {
-                                        item.createdUserId = e.target.value;
-                                    });
-                                });
-                            }}
-                            className={
-                              "select-owner flex rounded-md border px-2 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-mirage-500 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 dark:border-mirage-800 dark:placeholder:text-mirage-400 dark:focus-visible:ring-primary-dark h-[32px] w-full"
-                            }
-                            style={{
-                              background: "transparent",
-                            }}
-                        >
-                            <option value={OBR.player.id}>GM</option>
-                            {players.map((player) => {
-                                return (
-                                    <option key={player.id} value={player.id}>
-                                        {player.name}
-                                    </option>
-                                );
-                            })}
-                        </select> */}
+                        </Select>
                       </div>
                     </TableCell>
                   )}
