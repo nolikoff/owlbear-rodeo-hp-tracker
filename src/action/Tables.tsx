@@ -69,9 +69,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
-export const [players, setPlayers] = useState<Array<Player>>([]);
-
 export function SceneTokensTable({
   appState,
   dispatch,
@@ -94,6 +91,8 @@ export function SceneTokensTable({
       activationConstraint: { distance: { y: 10 } },
     }),
   );
+
+  const [players, setPlayers] = useState<Array<Player>>([]);
   
   useEffect(() => {
         const initPlayerList = async () => {
@@ -249,7 +248,7 @@ export function SceneTokensTable({
                     <AccessButton token={token} setTokens={setTokens} />
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
-                    <OwnerSelector token={token} setTokens={setTokens} />
+                    <OwnerSelector token={token} setTokens={setTokens} players={players} />
                   )}
                   {appState.operation !== "damage" && (
                     <TableCell>
@@ -419,9 +418,11 @@ function AccessButton({
 function OwnerSelector({
   token,
   setTokens,
+  players,
 }: {
   token: Token;
   setTokens: React.Dispatch<React.SetStateAction<Token[]>>;
+  players: Player[];
 }): JSX.Element {
   return (
     <TableCell>
