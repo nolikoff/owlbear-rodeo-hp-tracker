@@ -41,9 +41,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  refreshAllHealthBars
-} from "@/background/statAttachments";
+import refreshAllHealthBars from "@/background/statAttachments";
 
 import {
   DndContext,
