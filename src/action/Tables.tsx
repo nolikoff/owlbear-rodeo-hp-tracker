@@ -41,6 +41,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  refreshAllHealthBars
+} from @/background/statAttachments
 
 import {
   DndContext,
@@ -272,6 +275,7 @@ export function SceneTokensTable({
                                 item.createdUserId = value;
                               });
                             });
+                            refreshAllHealthBars();
                           }}
                         >
                           <SelectTrigger className="w-[128px] h-[32px]">
