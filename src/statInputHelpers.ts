@@ -41,6 +41,8 @@ export async function writeTokenValueToItem(
       throw "Selection exceeded max length, expected 1, got: " + items.length;
     }
 
+    alerts("333");
+    
     // Modify item
     for (let item of items) {
       const itemMetadata = item.metadata[getPluginId("metadata")];
