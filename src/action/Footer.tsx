@@ -226,15 +226,15 @@ export default function Footer({
         break;
     }
 
-  const [popoverHeight, setPopoverHeight] = useState(
-    playerRole === "GM" ? 480 : 240,
-  );
-  useEffect(() => {
-    const handler = () =>
-      setPopoverHeight(playerRole === "GM" ? 480 : 240);
-    window.addEventListener("resize", handler);
-    return window.removeEventListener("resize", handler);
-  }, []);
+  // const [popoverHeight, setPopoverHeight] = useState(
+  //   playerRole === "GM" ? 480 : 240,
+  // );
+  // useEffect(() => {
+  //   const handler = () =>
+  //     setPopoverHeight(playerRole === "GM" ? 480 : 240);
+  //   window.addEventListener("resize", handler);
+  //   return window.removeEventListener("resize", handler);
+  // }, []);
 
   return (
     <div className="space-y-2 p-2 px-4">
@@ -322,7 +322,7 @@ export default function Footer({
           <PopoverContent
             className="w-72 p-0"
             align="start"
-            style={{ height: popoverHeight }}
+            style={{ height: playerRole === "GM" ? 480 : 240 }}
           >
             <ScrollArea className="h-full px-4">
               <div className="flex flex-col gap-2 py-3">
