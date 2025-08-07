@@ -44,6 +44,7 @@ export async function writeTokenValueToItem(
     // Modify item
     for (let item of items) {
       const itemMetadata = item.metadata[getPluginId("metadata")];
+      alert(value);
       item.metadata[getPluginId("metadata")] = {
         ...(typeof itemMetadata === "object" ? itemMetadata : {}),
         ...{ [id]: value },
