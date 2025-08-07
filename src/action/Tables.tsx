@@ -440,6 +440,7 @@ function AccessButton({
                 : "Hide Stats from players"
             }
             onClick={() =>
+              alerts("111");
               handleHiddenUpdate(token.item.id, token.hideStats, setTokens)
             }
           >
@@ -526,6 +527,7 @@ async function handleHiddenUpdate(
     }
     return [...prevTokens];
   });
+  alerts("222");
   writeTokenValueToItem(itemId, name, value);
 }
 
