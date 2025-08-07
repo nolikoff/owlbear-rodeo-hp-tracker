@@ -227,7 +227,6 @@ export default function Footer({
   const [popoverHeight, setPopoverHeight] = useState(
     playerRole === "GM" ? 480 : 240,
   );
-  alert(window.innerHeight);
   useEffect(() => {
     const handler = () =>
       setPopoverHeight(playerRole === "GM" ? 480 : 240);
