@@ -157,6 +157,7 @@ async function startCallbacks() {
         const playerRole = await OBR.player.getRole();
         const sceneDpi = await OBR.scene.grid.getDpi();
         for (const item of changedItems) {
+          alert("DDD");
           createAttachments(item, playerId, playerRole, sceneDpi);
         }
 
