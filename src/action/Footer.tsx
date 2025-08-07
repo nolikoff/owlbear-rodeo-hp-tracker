@@ -211,6 +211,8 @@ export default function Footer({
   if (appState.value !== null)
     switch (appState.operation) {
       case "none":
+        valueDisplayString = `Last Roll Result`;
+        break;
       case "overwrite":
         valueDisplayString = `Roll Result`;
         break;
@@ -222,14 +224,13 @@ export default function Footer({
         break;
     }
 
-  const POPOVER_TOP_MARGIN = 60;
   const [popoverHeight, setPopoverHeight] = useState(
-    window.innerHeight - POPOVER_TOP_MARGIN,
+    playerRole === "GM" ? 480 : 240,
   );
   alert(window.innerHeight);
   useEffect(() => {
     const handler = () =>
-      setPopoverHeight(playerRole === "GM" ? 472 : 232);
+      setPopoverHeight(playerRole === "GM" ? 480 : 240);
     window.addEventListener("resize", handler);
     return window.removeEventListener("resize", handler);
   }, []);
