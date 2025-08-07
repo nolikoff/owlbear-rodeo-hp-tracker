@@ -69,10 +69,11 @@ async function refreshAllHealthBars() {
   itemsLast = items;
 
   //draw health bars
-  const roll = await OBR.player.getRole();
+  const playerId = await OBR.player.getId();
+  const playerRole = await OBR.player.getRole();
   const sceneDpi = await OBR.scene.grid.getDpi();
   for (const item of items) {
-    createAttachments(item, roll, sceneDpi);
+    createAttachments(item, playerId, playerRole, sceneDpi);
   }
 
   await sendItemsToScene(addItemsArray, deleteItemsArray);
@@ -229,18 +230,18 @@ function getChangedItems(imagesFromCallback: Image[]) {
   return changedItems;
 }
 
-function createAttachments(item: Image, role: "PLAYER" | "GM", dpi: number) {
+function createAttachments(item: Image, id: string, role: "PLAYER" | "GM", dpi: number) {
   const { origin, bounds } = getOriginAndBounds(settings, item, dpi);
 
   // Create stats
   const [health, maxHealth, tempHealth, armorClass, statsVisible] =
     getTokenStats(item);
-  if (role === "PLAYER" && !statsVisible && !settings.showBars) {
+  if (role === "PLAYER" && !statsVisible && !settings.showBars && id != item.createdUserId) {
     // Display nothing, explicitly remove all attachments
     addHealthAttachmentsToArray(deleteItemsArray, item.id);
     addArmorAttachmentsToArray(deleteItemsArray, item.id);
     addTempHealthAttachmentsToArray(deleteItemsArray, item.id);
-  } else if (role === "PLAYER" && !statsVisible && settings.showBars) {
+  } else if (role === "PLAYER" && !statsVisible && settings.showBars && id != item.createdUserId) {
     // Display limited stats depending on GM configuration
     createLimitedHealthBar();
   } else {
