@@ -25,7 +25,7 @@ import {
   handleTokenClicked,
 } from "./helpers";
 import { cn } from "@/lib/utils";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   getNewStatValue,
   InputName,
@@ -413,15 +413,15 @@ function OwnerSelector({
   const [players, setPlayers] = useState<Array<Player>>([]);
   
   useEffect(() => {
-        const initPlayerList = async () => {
-            setPlayers(await OBR.party.getPlayers());
-        };
+      const initPlayerList = async () => {
+          setPlayers(await OBR.party.getPlayers());
+      };
 
-        initPlayerList();
-        return OBR.party.onChange((players) => {
-            setPlayers(players);
-        });
-    }, []);
+      initPlayerList();
+      return OBR.party.onChange((players) => {
+          setPlayers(players);
+      });
+  }, []);
 
   const colorDropButton = useRef(null);
   
@@ -457,12 +457,12 @@ function OwnerSelector({
         <Select
           value={token.item.createdUserId}
           onValueChange={async (value) => {
+            secondButtonRef.current.click();
             await OBR.scene.items.updateItems([token.item], (items) => {
               items.forEach((item) => {
                 item.createdUserId = value;
               });
             });
-            secondButtonRef.current.click();
           }}
         >
           <SelectTrigger className="w-[128px] h-[32px]">
