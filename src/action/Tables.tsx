@@ -526,7 +526,6 @@ async function handleHiddenUpdate(
     }
     return [...prevTokens];
   });
-  alerts("222");
   writeTokenValueToItem(itemId, name, value);
 }
 
