@@ -115,7 +115,7 @@ export function SceneTokensTable({
         strategy={verticalListSortingStrategy}
       >
         <Table tabIndex={-1}>
-          <TableHeader>
+          <TableHeader style={{ border-bottom-width: 1px }}>
             {appState.operation !== "none" && (
               <CheckboxTableHead
                 included={allChecked(tokens, appState.includedItems)}
