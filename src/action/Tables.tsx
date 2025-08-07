@@ -517,7 +517,6 @@ async function handleHiddenUpdate(
   if (!isInputName(name)) throw "Error: invalid input name.";
 
   const value = !previousValue;
-  alerts("MMM");
 
   setTokens((prevTokens) => {
     for (let i = 0; i < prevTokens.length; i++) {
@@ -528,6 +527,8 @@ async function handleHiddenUpdate(
     return [...prevTokens];
   });
   writeTokenValueToItem(itemId, name, value);
+
+  alerts("MMM");
 }
 
 function handleStatUpdate(
