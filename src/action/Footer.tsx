@@ -226,6 +226,7 @@ export default function Footer({
   const [popoverHeight, setPopoverHeight] = useState(
     window.innerHeight - POPOVER_TOP_MARGIN,
   );
+  alert(window.innerHeight);
   useEffect(() => {
     const handler = () =>
       setPopoverHeight(window.innerHeight - POPOVER_TOP_MARGIN);
