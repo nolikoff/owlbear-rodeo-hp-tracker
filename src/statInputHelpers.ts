@@ -34,7 +34,6 @@ export async function writeTokenValueToItem(
   value: number | boolean,
 ) {
   const id = convertInputNameToMetadataId(name);
-  alerts("FFF");
 
   await OBR.scene.items.updateItems([itemId], (items) => {
     // Throw error if more than one token selected
@@ -51,6 +50,8 @@ export async function writeTokenValueToItem(
       };
     }
   });
+
+  alerts("FFF");
 }
 
 export function getNewStatValue(
