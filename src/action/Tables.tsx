@@ -273,7 +273,7 @@ export function SceneTokensTable({
                                 item.createdUserId = value;
                               });
                             });
-                            refreshAllHealthBars();
+                            handleHiddenUpdate(token.item.id, !token.hideStats, setTokens);
                           }}
                         >
                           <SelectTrigger className="w-[128px] h-[32px]">
