@@ -240,14 +240,17 @@ function createAttachments(item: Image, id: string, role: "PLAYER" | "GM", dpi: 
     getTokenStats(item);
   if (role === "PLAYER" && !statsVisible && !settings.showBars && id != item.createdUserId) {
     // Display nothing, explicitly remove all attachments
+    alert("AAA");
     addHealthAttachmentsToArray(deleteItemsArray, item.id);
     addArmorAttachmentsToArray(deleteItemsArray, item.id);
     addTempHealthAttachmentsToArray(deleteItemsArray, item.id);
   } else if (role === "PLAYER" && !statsVisible && settings.showBars && id != item.createdUserId) {
     // Display limited stats depending on GM configuration
+    alert("BBB");
     createLimitedHealthBar();
   } else {
     // Display full stats
+    alert("CCC");
     const hasHealthBar = createFullHealthBar();
     const hasArmorClassBubble = createArmorClass(hasHealthBar);
     createTempHealth(hasHealthBar, hasArmorClassBubble);
