@@ -210,7 +210,7 @@ export default function BulkEditor(): JSX.Element {
   };
 
   return (
-    <div className="h-full overflow-clip pokemon">
+    <div className="h-full overflow-clip">
       <div className="flex h-full flex-col justify-between bg-mirage-100/90 dark:bg-mirage-940/85 dark:text-mirage-200">
         <Header
           appState={appState}
