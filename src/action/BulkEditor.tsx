@@ -50,7 +50,7 @@ export default function BulkEditor(): JSX.Element {
         OBR.action.setWidth(400)
       } else {
         // same values as set in the manifest are used for gm
-        OBR.action.setHeight(520)
+        OBR.action.setHeight(532)
         OBR.action.setWidth(580)
       }
     }, [playerRole] // rerun if playerRole changes
