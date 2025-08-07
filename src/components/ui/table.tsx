@@ -22,7 +22,6 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead ref={ref} 
     className={cn("[&_tr]:border-b border-mirage-300 dark:border-mirage-800", className)}
-    style={cn("border-bottom-width: 1px", style)}
     {...props} />
 ));
 TableHeader.displayName = "TableHeader";
