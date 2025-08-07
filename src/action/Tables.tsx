@@ -519,13 +519,13 @@ async function handleHiddenUpdate(
   setTokens((prevTokens) => {
     for (let i = 0; i < prevTokens.length; i++) {
       // console.log(prevTokens[i]);
-      const [formData, setFormData] = useState({
-        some_token: prevTokens[i].item.id,
-        used_token: itemId,
-        some_token_owner: prevTokens[i].item.createdUserId,
-        player: OBR.player.id,
-      });
-      alert(JSON.stringify(formData))
+
+      let alertString = `some_token: ${prevTokens[i].item.id}`;
+      alertString = `\used_token: ${itemId}`;
+      alertString = `\some_token_owner: ${prevTokens[i].item.createdUserId}`;
+      alertString = `\player: ${OBR.player.id}`;    
+      alert(alertString);
+      
       if (prevTokens[i].item.id === itemId)
         if (prevTokens[i].item.createdUserId != OBR.player.id)
           prevTokens[i] = { ...prevTokens[i], [name]: value } as Token;
