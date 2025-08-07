@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/tooltip";
 import {
   refreshAllHealthBars
-} from @/background/statAttachments
+} from "@/background/statAttachments";
 
 import {
   DndContext,
