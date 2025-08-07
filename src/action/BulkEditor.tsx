@@ -219,11 +219,11 @@ export default function BulkEditor(): JSX.Element {
           playerName={playerName}
         ></Header>
         <ScrollArea className="h-full sm:px-4">
-          <div className="flex flex-col items-center justify-start gap-2 pb-2">
+          <div className="flex flex-col items-center justify-start gap-2">
             {getTable()}
-            {playerRole === "GM" && (
+{/*             {playerRole === "GM" && (
               <ChangeShowItemsButton appState={appState} dispatch={dispatch} />
-            )}
+            )} */}
           </div>
           <ScrollBar orientation="horizontal" forceMount />
         </ScrollArea>
