@@ -3,6 +3,7 @@ import "../index.css";
 import OBR, { Image, Player } from "@owlbear-rodeo/sdk";
 import Tippy from "@tippyjs/react";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -149,6 +150,7 @@ export function SceneTokensTable({
               </>
             )}
           </TableHeader>
+          <Separator />
           <TableBody>
             {tokens.map((token) => {
               const included = getIncluded(
