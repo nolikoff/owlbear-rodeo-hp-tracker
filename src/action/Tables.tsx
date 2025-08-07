@@ -519,18 +519,8 @@ async function handleHiddenUpdate(
   setTokens((prevTokens) => {
     for (let i = 0; i < prevTokens.length; i++) {
       // console.log(prevTokens[i]);
-
-      let alertString = `some_token: ${prevTokens[i].item.id}`;
-      alertString = `\used_token: ${itemId}`;
-      alertString = `\some_token_owner: ${prevTokens[i].item.createdUserId}`;
-      alertString = `\player: ${OBR.player.id}`;    
-      alert(alertString);
-      
       if (prevTokens[i].item.id === itemId)
-        if (prevTokens[i].item.createdUserId != OBR.player.id)
-          prevTokens[i] = { ...prevTokens[i], [name]: value } as Token;
-        else
-          prevTokens[i] = { ...prevTokens[i], [name]: false } as Token;
+        prevTokens[i] = { ...prevTokens[i], [name]: value } as Token;
     }
     return [...prevTokens];
   });
