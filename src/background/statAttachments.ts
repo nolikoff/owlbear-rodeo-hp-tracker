@@ -152,10 +152,11 @@ async function startCallbacks() {
         itemsLast = imagesFromCallback;
 
         //draw health bars
-        const role = await OBR.player.getRole();
+        const playerId = await OBR.player.getId();
+        const playerRole = await OBR.player.getRole();
         const sceneDpi = await OBR.scene.grid.getDpi();
         for (const item of changedItems) {
-          createAttachments(item, role, sceneDpi);
+          createAttachments(item, playerId, playerRole, sceneDpi);
         }
 
         await sendItemsToScene(addItemsArray, deleteItemsArray);
