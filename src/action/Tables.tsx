@@ -520,7 +520,10 @@ async function handleHiddenUpdate(
     for (let i = 0; i < prevTokens.length; i++) {
       // console.log(prevTokens[i]);
       if (prevTokens[i].item.id === itemId)
-        prevTokens[i] = { ...prevTokens[i], [name]: value } as Token;
+        if (prevTokens[i].item.createdUserId != OBR.player.id)
+          prevTokens[i] = { ...prevTokens[i], [name]: value } as Token;
+        else
+          prevTokens[i] = { ...prevTokens[i], [name]: false } as Token;
     }
     return [...prevTokens];
   });
