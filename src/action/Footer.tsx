@@ -97,6 +97,8 @@ export default function Footer({
     }
   };
 
+  alert(appState.rolls);
+  
   const rolls: JSX.Element[] = appState.rolls
     .filter((roll) => {
       if (roll.visibility === "PUBLIC") return true;
