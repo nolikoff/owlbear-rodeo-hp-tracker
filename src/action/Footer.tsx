@@ -229,7 +229,7 @@ export default function Footer({
   alert(window.innerHeight);
   useEffect(() => {
     const handler = () =>
-      setPopoverHeight(window.innerHeight - POPOVER_TOP_MARGIN);
+      setPopoverHeight(playerRole === "GM" ? 472 : 232);
     window.addEventListener("resize", handler);
     return window.removeEventListener("resize", handler);
   }, []);
