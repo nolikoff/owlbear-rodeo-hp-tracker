@@ -96,8 +96,6 @@ export default function Footer({
         return <></>;
     }
   };
-
-  alert(appState.rolls);
   
   const rolls: JSX.Element[] = appState.rolls
     .filter((roll) => {
@@ -225,16 +223,6 @@ export default function Footer({
         valueDisplayString = `Healing Result`;
         break;
     }
-
-  // const [popoverHeight, setPopoverHeight] = useState(
-  //   playerRole === "GM" ? 480 : 240,
-  // );
-  // useEffect(() => {
-  //   const handler = () =>
-  //     setPopoverHeight(playerRole === "GM" ? 480 : 240);
-  //   window.addEventListener("resize", handler);
-  //   return window.removeEventListener("resize", handler);
-  // }, []);
 
   return (
     <div className="space-y-2 p-2 px-4">
