@@ -19,8 +19,12 @@ Table.displayName = "Table";
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("border-mirage-300 dark:border-mirage-800", className)} {...props} />
+>(({ className, style, ...props }, ref) => (
+  <thead 
+    ref={ref} 
+    className={cn("border-mirage-300 dark:border-mirage-800", className)}
+    style={{ border-bottom-width: 1px }}
+    {...props} />
 ));
 TableHeader.displayName = "TableHeader";
 
