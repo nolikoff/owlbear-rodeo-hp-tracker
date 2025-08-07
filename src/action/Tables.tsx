@@ -25,7 +25,7 @@ import {
   handleTokenClicked,
 } from "./helpers";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   getNewStatValue,
   InputName,
@@ -91,19 +91,6 @@ export function SceneTokensTable({
       activationConstraint: { distance: { y: 10 } },
     }),
   );
-
-  const [players, setPlayers] = useState<Array<Player>>([]);
-  
-  useEffect(() => {
-        const initPlayerList = async () => {
-            setPlayers(await OBR.party.getPlayers());
-        };
-
-        initPlayerList();
-        return OBR.party.onChange((players) => {
-            setPlayers(players);
-        });
-    }, []);
 
   return (
     <DndContext
@@ -248,7 +235,7 @@ export function SceneTokensTable({
                     <AccessButton token={token} setTokens={setTokens} />
                   )}
                   {appState.operation === "none" && playerRole === "GM" && (
-                    <OwnerSelector token={token} setTokens={setTokens} players={players} />
+                    <OwnerSelector token={token} setTokens={setTokens} />
                   )}
                   {appState.operation !== "damage" && (
                     <TableCell>
@@ -418,21 +405,36 @@ function AccessButton({
 function OwnerSelector({
   token,
   setTokens,
-  players,
 }: {
   token: Token;
   setTokens: React.Dispatch<React.SetStateAction<Token[]>>;
-  players: Player[];
 }): JSX.Element {
+
+  const [players, setPlayers] = useState<Array<Player>>([]);
+  
+  useEffect(() => {
+        const initPlayerList = async () => {
+            setPlayers(await OBR.party.getPlayers());
+        };
+
+        initPlayerList();
+        return OBR.party.onChange((players) => {
+            setPlayers(players);
+        });
+    }, []);
+
+  const colorDropButton = useRef(null);
+  
   return (
     <TableCell>
       <div className="relative gap-2 flex items-center min-w-[140px]">
         <Button
+          ref={colorDropButton}
           variant={"ghost"}
           size={"icon"}
           name={"Owner Color"}
           onClick={() =>
-            handleHiddenUpdate(token.item.id, token.hideStats, setTokens)
+            handleHiddenUpdate(token.item.id, !token.hideStats, setTokens)
           }
         >
           <svg
@@ -460,7 +462,7 @@ function OwnerSelector({
                 item.createdUserId = value;
               });
             });
-            handleHiddenUpdate(token.item.id, !token.hideStats, setTokens);
+            secondButtonRef.current.click();
           }}
         >
           <SelectTrigger className="w-[128px] h-[32px]">
