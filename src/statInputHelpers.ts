@@ -50,8 +50,6 @@ export async function writeTokenValueToItem(
       };
     }
   });
-
-  alerts("FFF");
 }
 
 export function getNewStatValue(
